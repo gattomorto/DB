@@ -68,11 +68,11 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="JavaScript Debug.gestione_prestiti.php" />
-      <item itemvalue="PHP Script.popolazione_datadase.php" />
-      <item itemvalue="PHP Script.popolazione_database.php" />
-      <item itemvalue="PHP Script.gestione_biblio.php" />
       <item itemvalue="JavaScript Debug.g.html" />
+      <item itemvalue="JavaScript Debug.gestione_prestiti.php" />
+      <item itemvalue="PHP Script.gestione_biblio.php" />
+      <item itemvalue="PHP Script.popolazione_database.php" />
+      <item itemvalue="PHP Script.popolazione_datadase.php" />
     </list>
     <recent_temporary>
       <list>
