@@ -5,6 +5,56 @@ include "gestione_biblio.php";
 ?>
 <html lang="en">
 <head>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .corner_left {
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+
+        }
+
+        .corner_right {
+            border-top: 1px solid #FFFFFF;
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+        }
+
+        .left_right {
+            border-left: 1px solid #FFFFFF;
+            border-right: 1px solid #FFFFFF;
+        }
+
+        .top_left_bottom {
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+        }
+
+        .left_bottom {
+            border-left: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+
+        }
+
+        .top_right_bottom {
+            border-top: 1px solid #FFFFFF;
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+        }
+
+        .right_bottom {
+
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+        }
+    </style>
+
+
     <meta charset="UTF-8">
     <title>Gestione prestiti</title>
 </head>
@@ -30,22 +80,22 @@ include "gestione_biblio.php";
     <font size="5">
     <table border="1" width="1500" align="center" cellspacing="1">
 
-        <tr>
-            <td width="80" height="40">bot1</td>
-            <td><strong>Nome</strong></td>
+        <tr >
+            <td class="corner_left" width="80" height="40"></td>
+            <td > <strong>Nome</strong></td>
             <td><strong>Cognome</strong></td>
             <td><strong>Matricola</strong></td>
             <td><strong>Data uscita</strong></td>
             <td><strong>Data rientro</strong></td>
             <td><strong>Libri</strong></td>
-            <td width="70">bott2</td>
+            <td class="corner_right" width="70"></td>
         </tr>
 
 
 
 
       <tr>
-             <td width='80' height='40'> <form action=''>
+             <td class="top_left_bottom" width='80' height='40'> <form action=''>
              <button type='submit'>-></button>
              </form>
              </td>
@@ -55,14 +105,14 @@ include "gestione_biblio.php";
              <td></td>
              <td></td>
              <td></td>
-             <td width='70'><form action=''>
+             <td class="top_right_bottom"width='70'><form action=''>
              <button type='submit'>restituito</button>
              </form>
              </td>
        </tr>
 
         <tr>
-            <td width='80' height='40'> <form action=''>
+            <td class="corner_left" width='80' height='40'> <form action=''>
                     <button type='submit'>-></button>
                 </form>
             </td>
@@ -72,14 +122,14 @@ include "gestione_biblio.php";
             <td></td>
             <td></td>
             <td></td>
-            <td width='70'><form action=''>
+            <td class="right_bottom" width='70'><form action=''>
                     <button type='submit'>restituito</button>
                 </form>
             </td>
         </tr>
 
         <tr>
-            <td width='80' height='40'> <form action=''>
+            <td class="left_bottom" width='80' height='40'> <form action=''>
                     <button type='submit'>-></button>
                 </form>
             </td>
@@ -89,21 +139,11 @@ include "gestione_biblio.php";
             <td></td>
             <td></td>
             <td></td>
-            <td width='70'><form action=''>
+            <td class="right_bottom"width='70'><form action=''>
                     <button type='submit'>restituito</button>
                 </form>
             </td>
         </tr>
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -111,13 +151,13 @@ include "gestione_biblio.php";
 
         <!-- Da qui inizia la tabella dei prestiti conclusi -->
         <tr>
-            <td  style="vertical-align:bottom" colspan="8" width="80" height="40"  ><strong>prestiti conclusi</strong></td>
+            <td class="left_right" style="vertical-align:bottom" colspan="8" width="80" height="40"  ><strong>prestiti conclusi</strong></td class="left_right">
 
         </tr>
 
 
         <tr>
-            <td width="80" height="40"><form action="">
+            <td class="top_left_bottom" width="80" height="40"><form action="">
                 <button type=”submit”>-></button>
             </form>
             </td>
@@ -131,7 +171,7 @@ include "gestione_biblio.php";
         </tr>
 
         <tr>
-            <td width="80" height="40"><form action="">
+            <td class="left_bottom"width="80" height="40"><form action="">
                 <button type=”submit”>-></button>
             </form>
             </td>
@@ -145,7 +185,7 @@ include "gestione_biblio.php";
         </tr>
 
         <tr>
-            <td width="80" height="40"><form action="">
+            <td class="left_bottom"width="80" height="40"><form action="">
                 <button type=”submit”>-></button>
             </form>
             </td>

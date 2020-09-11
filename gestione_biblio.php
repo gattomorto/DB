@@ -100,7 +100,7 @@ function crea_struttura_gestione_prestiti()
 
     $result = $GLOBALS['connessione']->query($qry);
 
-    $i=0;
+    $primaPosizioneDisponibile=0;
     $tab=[];
     while ($row = $result->fetch_assoc())
     {
@@ -113,7 +113,19 @@ function crea_struttura_gestione_prestiti()
 
         $indicePresito = prestito_inserito($tab,$row);
 
-        if($indicePresito!=false)
+
+        /*if($indicePresito!=false) {
+            echo $indicePresito . "\n";
+        }
+        else
+        {
+            echo "false\n";
+        }*/
+
+        echo $indicePresito . "\n";
+
+
+        if($indicePresito!==false)
         {
 
             end($tab[$indicePresito][5]);
@@ -137,9 +149,9 @@ function crea_struttura_gestione_prestiti()
 
             $riga[5]=$libri;
 
-            $tab[$i]=$riga;
+            $tab[$primaPosizioneDisponibile]=$riga;
 
-            $i++;
+            $primaPosizioneDisponibile++;
         }
 
 
