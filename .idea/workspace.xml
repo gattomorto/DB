@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a80c501a-5de2-4a8b-8da7-354e985a1e8d" name="Default Changelist" comment="" />
+    <list default="true" id="a80c501a-5de2-4a8b-8da7-354e985a1e8d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gestione_biblio.php" beforeDir="false" afterPath="$PROJECT_DIR$/gestione_biblio.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gestione_prestiti.php" beforeDir="false" afterPath="$PROJECT_DIR$/gestione_prestiti.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prove.php" beforeDir="false" afterPath="$PROJECT_DIR$/prove.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +26,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.1">
     <include_path>
       <path value="/usr/share/php" />
@@ -32,6 +40,7 @@
     </hideBySeverity>
   </component>
   <component name="ProjectId" id="1gEbP28nxLHe1u7RB5jgT6ZQxn5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -51,7 +60,7 @@
       <recent name="C:\Users\Dania\Desktop\basi di dati\progetto\immagini" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.g.html">
+  <component name="RunManager" selected="PHP Script.popolazione_database.php">
     <configuration name="g.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/progetto/g.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -76,9 +85,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="PHP Script.popolazione_database.php" />
         <item itemvalue="JavaScript Debug.g.html" />
         <item itemvalue="PHP Script.popolazione_datadase.php" />
-        <item itemvalue="PHP Script.popolazione_database.php" />
         <item itemvalue="PHP Script.gestione_biblio.php" />
         <item itemvalue="JavaScript Debug.gestione_prestiti.php" />
       </list>
@@ -118,6 +127,7 @@
       <workItem from="1599722395585" duration="28766000" />
       <workItem from="1599813150648" duration="178000" />
       <workItem from="1599813587077" duration="5996000" />
+      <workItem from="1599897599134" duration="971000" />
     </task>
     <servers />
   </component>
@@ -170,22 +180,22 @@
       <screen x="67" y="27" width="1299" height="741" />
     </state>
     <state x="375" y="193" width="1045" height="300" key="GridCell.Tab.-1.right/67.27.1299.741@67.27.1299.741" timestamp="1599814459359" />
-    <state width="1253" height="117" key="GridCell.Tab.0.bottom" timestamp="1599840094545">
+    <state width="1253" height="166" key="GridCell.Tab.0.bottom" timestamp="1599847866494">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1253" height="117" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1599840094545" />
-    <state width="1253" height="117" key="GridCell.Tab.0.center" timestamp="1599840094544">
+    <state width="1253" height="166" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1599847866494" />
+    <state width="1253" height="166" key="GridCell.Tab.0.center" timestamp="1599847866494">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1253" height="117" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1599840094544" />
-    <state width="1253" height="117" key="GridCell.Tab.0.left" timestamp="1599840094544">
+    <state width="1253" height="166" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1599847866494" />
+    <state width="1253" height="166" key="GridCell.Tab.0.left" timestamp="1599847866493">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1253" height="117" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1599840094544" />
-    <state width="1253" height="117" key="GridCell.Tab.0.right" timestamp="1599840094545">
+    <state width="1253" height="166" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1599847866493" />
+    <state width="1253" height="166" key="GridCell.Tab.0.right" timestamp="1599847866494">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1253" height="117" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1599840094545" />
+    <state width="1253" height="166" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1599847866494" />
     <state x="139" y="157" width="1046" height="330" key="GridCell.Tab.1.bottom" timestamp="1599839931312">
       <screen x="67" y="27" width="1299" height="741" />
     </state>

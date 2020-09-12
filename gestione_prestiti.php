@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-gregegr
+
 <?php
 include "gestione_biblio.php";
 ?>
@@ -72,7 +72,7 @@ include "gestione_biblio.php";
 
     <div align="left">
 
-        <strong><h2>prestiti attivi</h2></strong>
+        <strong><h2>Prestiti attivi</h2></strong>
     </div>
 
 
@@ -91,118 +91,130 @@ include "gestione_biblio.php";
             <td class="corner_right" width="70"></td>
         </tr>
 
+        <?php
+
+
+        $tab = crea_struttura_gestione_prestiti();
+        $size = sizeof($tab);
+
+        $dataOggi = date('Y-m-d');
+
+        for ($i = 0; $i < $size; $i++) {
+            $nome = $tab[$i][0];
+            $cognome = $tab[$i][1];
+            $matricola = $tab[$i][2];
+            $dataInizio = $tab[$i][3];
+            $dataFine = $tab[$i][4];
+            $libriPerIlPrestitoI = $tab[$i][5];
+
+
+            if ($dataFine > $dataOggi) {
+
+                echo "
+                  <tr>
+                        <td class='left_bottom'width='80' height='40'> <form action=''>
+                        <button type='submit'>-></button>
+                         </form>
+                         </td>
+                             <td>$nome</td>
+                             <td>$cognome</td>
+                             <td>$matricola</td>
+                             <td>$dataInizio</td>
+                             <td>$dataFine</td>";
+
+                echo "<td>";
+                foreach ($libriPerIlPrestitoI as $libro) {
+                    echo $libro . "<br>";
+                }
+                echo "</td>";
+
+                echo "<td class='right_bottom'' width='70'><form action=''>
+                             <button style='font-size: medium' type='submit'>restituito</button>
+                             </form>
+                             </tdclass>
+                       </tr>";
 
 
 
-      <tr>
-             <td class="top_left_bottom" width='80' height='40'> <form action=''>
-             <button type='submit'>-></button>
-             </form>
-             </td>
-             <td></td>
-             <td></td>
-             <td></td>
-             <td></td>
-             <td></td>
-             <td></td>
-             <td class="top_right_bottom"width='70'><form action=''>
-             <button type='submit'>restituito</button>
-             </form>
-             </td>
-       </tr>
-
-        <tr>
-            <td class="corner_left" width='80' height='40'> <form action=''>
-                    <button type='submit'>-></button>
-                </form>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="right_bottom" width='70'><form action=''>
-                    <button type='submit'>restituito</button>
-                </form>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="left_bottom" width='80' height='40'> <form action=''>
-                    <button type='submit'>-></button>
-                </form>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="right_bottom"width='70'><form action=''>
-                    <button type='submit'>restituito</button>
-                </form>
-            </td>
-        </tr>
+            }
 
 
+        }
 
 
+        ?>
 
-        <!-- Da qui inizia la tabella dei prestiti conclusi -->
-        <tr>
-            <td class="left_right" style="vertical-align:bottom" colspan="8" width="80" height="40"  ><strong>prestiti conclusi</strong></td class="left_right">
+    </table><br><br>
 
-        </tr>
+<div align="left">
+
+    <strong><h4>Prestiti conclusi</h4></strong>
+</div>
+
+        <table border="1" width="1500" align="center" cellspacing="1">
+
+            <tr >
+                <td class="corner_left" width="80" height="40"></td>
+                <td > <strong>Nome</strong></td>
+                <td><strong>Cognome</strong></td>
+                <td><strong>Matricola</strong></td>
+                <td><strong>Data uscita</strong></td>
+                <td><strong>Data rientro</strong></td>
+                <td><strong>Libri</strong></td>
+                <td class="corner_right" width="70"></td>
+            </tr>
 
 
-        <tr>
-            <td class="top_left_bottom" width="80" height="40"><form action="">
-                <button type=”submit”>-></button>
-            </form>
-            </td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>7</td>
-            <td>8</td>
-            <td>9</td>
-        </tr>
+            <?php
 
-        <tr>
-            <td class="left_bottom"width="80" height="40"><form action="">
-                <button type=”submit”>-></button>
-            </form>
-            </td>
-            <td>11</td>
-            <td>12</td>
-            <td>13</td>
-            <td>14</td>
-            <td>15</td>
-            <td>16</td>
-            <td>17</td>
-        </tr>
+            $tab = crea_struttura_gestione_prestiti();
+            $size = sizeof($tab);
 
-        <tr>
-            <td class="left_bottom"width="80" height="40"><form action="">
-                <button type=”submit”>-></button>
-            </form>
-            </td>
-            <td>19</td>
-            <td>20</td>
-            <td>21</td>
-            <td>22</td>
-            <td>23</td>
-            <td>24</td>
-            <td>25</td>
-        </tr>
+            $dataOggi = date('Y-m-d');
 
-    </table><br>
+            for ($i = 0; $i < $size; $i++) {
+                $nome = $tab[$i][0];
+                $cognome = $tab[$i][1];
+                $matricola = $tab[$i][2];
+                $dataInizio = $tab[$i][3];
+                $dataFine = $tab[$i][4];
+                $libriPerIlPrestitoI = $tab[$i][5];
+
+
+                if ($dataFine < $dataOggi) {
+
+                    echo "
+                  <tr>
+                        <td class='left_bottom'width='80' height='40'> <form action=''>
+                        <button type='submit'>-></button>
+                         </form>
+                         </td>
+                             <td>$nome</td>
+                             <td>$cognome</td>
+                             <td>$matricola</td>
+                             <td>$dataInizio</td>
+                             <td>$dataFine</td>";
+
+                    echo "<td>";
+                    foreach ($libriPerIlPrestitoI as $libro) {
+                        echo $libro . "<br>";
+                    }
+                    echo "</td>";
+
+
+                }
+
+
+            }
+
+            ?>
+
+        </table><br><br><br>
+
     </font>
 
     <form action="">
-        <button type=”submit” style="font-size: large">Nuovo prestito</button>
+        <button type=”submit” style="font-size:x-large">nuovo prestito</button>
     </form>
 
 
