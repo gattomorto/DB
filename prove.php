@@ -41,6 +41,7 @@ foreach ($tab as $presito)
 $size = sizeof($tab);
 
 $dataOggi = date('Y-m-d');
+
 for ($i = 0; $i <= $size; $i++) {
     $nome = $tab[$i][0];
     $cognome = $tab[$i][1];
@@ -53,11 +54,11 @@ for ($i = 0; $i <= $size; $i++) {
     if ($dataFine > $dataOggi) {
 
         echo "
-                      <tr>
-                             <td width='80' height='40'> <form action=''>
-                             <button type='submit'>-></button>
-                             </form>
-                             </td>
+                  <tr>
+                        <td width='80' height='40'> <form action=''>
+                        <button type='submit'>-></button>
+                         </form>
+                         </td>
                              <td>$nome</td>
                              <td>$cognome</td>
                              <td>$matricola</td>

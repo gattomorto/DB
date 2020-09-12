@@ -122,7 +122,7 @@ function crea_struttura_gestione_prestiti()
             echo "false\n";
         }*/
 
-        echo $indicePresito . "\n";
+        //echo $indicePresito . "\n";
 
 
         if($indicePresito!==false)
