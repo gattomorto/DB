@@ -10,14 +10,16 @@
         <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a80c501a-5de2-4a8b-8da7-354e985a1e8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gestione_biblio.php" beforeDir="false" afterPath="$PROJECT_DIR$/gestione_biblio.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gestione_prestiti.php" beforeDir="false" afterPath="$PROJECT_DIR$/gestione_prestiti.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prove.php" beforeDir="false" afterPath="$PROJECT_DIR$/prove.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/popolazione_database.php" beforeDir="false" afterPath="$PROJECT_DIR$/popolazione_database.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,8 +99,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="PHP Script.popolazione_database.php" />
-        <item itemvalue="JavaScript Debug.g.html" />
         <item itemvalue="PHP Script.popolazione_datadase.php" />
+        <item itemvalue="JavaScript Debug.g.html" />
         <item itemvalue="PHP Script.gestione_biblio.php" />
         <item itemvalue="JavaScript Debug.gestione_prestiti.php" />
       </list>
@@ -155,6 +157,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="299" y="54" width="824" height="684" key="#CLI_Interpreters" timestamp="1598258538153">
@@ -202,22 +205,22 @@
       <screen x="67" y="27" width="1299" height="741" />
     </state>
     <state x="375" y="193" width="1045" height="300" key="GridCell.Tab.-1.right/67.27.1299.741@67.27.1299.741" timestamp="1599814459359" />
-    <state width="1253" height="166" key="GridCell.Tab.0.bottom" timestamp="1599847866494">
+    <state width="1253" height="110" key="GridCell.Tab.0.bottom" timestamp="1599986551622">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1253" height="166" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1599847866494" />
-    <state width="1253" height="166" key="GridCell.Tab.0.center" timestamp="1599847866494">
+    <state width="1253" height="110" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1599986551622" />
+    <state width="1253" height="110" key="GridCell.Tab.0.center" timestamp="1599986551621">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1253" height="166" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1599847866494" />
-    <state width="1253" height="166" key="GridCell.Tab.0.left" timestamp="1599847866493">
+    <state width="1253" height="110" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1599986551621" />
+    <state width="1253" height="110" key="GridCell.Tab.0.left" timestamp="1599986551621">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1253" height="166" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1599847866493" />
-    <state width="1253" height="166" key="GridCell.Tab.0.right" timestamp="1599847866494">
+    <state width="1253" height="110" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1599986551621" />
+    <state width="1253" height="110" key="GridCell.Tab.0.right" timestamp="1599986551622">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1253" height="166" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1599847866494" />
+    <state width="1253" height="110" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1599986551622" />
     <state x="139" y="157" width="1046" height="330" key="GridCell.Tab.1.bottom" timestamp="1599839931312">
       <screen x="67" y="27" width="1299" height="741" />
     </state>

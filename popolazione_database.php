@@ -16,7 +16,7 @@ popola_succursali();
 popola_libri();
 popola_utenti();
 popola_autori();
-popola_prestiti(3,2);
+popola_prestiti(30,20);
 popola_libri_autori();
 popola_copie();
 popola_copie_prestiti(10);
