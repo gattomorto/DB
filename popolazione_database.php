@@ -16,10 +16,10 @@ popola_succursali();
 popola_libri();
 popola_utenti();
 popola_autori();
-popola_prestiti(30,20);
+popola_prestiti(0,40);
 popola_libri_autori();
 popola_copie();
-popola_copie_prestiti(10);
+popola_copie_prestiti();
 
 ///////////////////////////////////////////////////////FUNZIONI/////////////////////////////////////////////////////////
 
@@ -242,7 +242,7 @@ function libro_esiste($isbn)
         return false;
     }
 }
-function copie_prestiti_esiste($isbn,$numCopia,$matricola, $inizio){
+function copia_prestito_esiste($isbn,$numCopia,$matricola, $inizio){
 
     /*
      * descrizione:
@@ -550,47 +550,49 @@ function popola_copie(){
 
     }
 }
-function popola_copie_prestiti($numPrestiti)
+function popola_copie_prestiti()
 {
     /*
-     * questa funzione serve a popolare la tabella copie_prestito.
+     * questa funzione serve a popolare la tabella copie_prestiti.
      * parametro: $numPrestiti che e un numero arbitrario che mi dice quanti prestiti generare
      */
 
+    $qry="select matricola, inizio from prestiti";
+    $daPrestiti = $GLOBALS['connessione']->query($qry);
+    test_qry($daPrestiti,"SELECT da tabella 'prestiti' in popola_copie_prestiti()");
     //il ciclo genera copie_prestito numPrestito righe
-    for($prestito=0; $prestito<=$numPrestiti; $prestito++)
+
+    while( $row = $daPrestiti->fetch_assoc())
     {
-        //estraggo una copia a caso
-        $qry="select isbn, numero_copia from copie order by rand()limit 1 ";
-        $daCopie = $GLOBALS['connessione']->query($qry);
-        test_qry($daCopie,"SELECT da tabella 'copie' in popola_copie_prestiti()");
+        $numLibriPerPrestito=rand(1,4);
 
-        //estraggo un prestito a caso
-        $qry="select matricola, inizio from prestiti copie order by rand()limit 1 ";
-        $daPrestiti = $GLOBALS['connessione']->query($qry);
-        test_qry($daPrestiti,"SELECT da tabella 'prestiti' in popola_copie_prestiti()");
-
-        //questo ciclo prende ad ogni giro una riga dell array associativo generato dalla tabella copie
-        $rowCopia = $daCopie->fetch_assoc();
-
-        $isbn=$rowCopia['isbn'];
-        $numCopia=$rowCopia['numero_copia'];
-        //echo "$isbn"."---"."$numCopia\n";
-
-        //questo ciclo prende ad ogni giro una riga dell array associativo generato dalla tabella prestiti
-        $rowPrestito = $daPrestiti->fetch_assoc();
-
-        $matricola=$rowPrestito['matricola'];
-        $inizio=$rowPrestito['inizio'];
-
-        if(copie_prestiti_esiste($isbn,$numCopia,$matricola,$inizio)==false)
+        for($i=0; $i<$numLibriPerPrestito; $i++)
         {
-            //questa query mi inserisce i valori generari dentro la tabella copia_prestito
-            $qry="insert into copie_prestiti value ('$isbn','$numCopia','$matricola','$inizio')";
-            $result = $GLOBALS['connessione']->query($qry);
-            test_qry($result,"INSERT in tabella copia_prestito()");
-        }
+            //estraggo una copia a caso
+            $qry="select isbn, numero_copia from copie order by rand()limit 1 ";
+            $daCopie = $GLOBALS['connessione']->query($qry);
+            test_qry($daCopie,"SELECT da tabella 'copie' in popola_copie_prestiti()");
+            //questo ciclo prende ad ogni giro una riga dell array associativo generato dalla tabella copie
+            $rowCopia = $daCopie->fetch_assoc();
 
+            $isbn=$rowCopia['isbn'];
+            $numCopia=$rowCopia['numero_copia'];
+            //echo "$isbn"."---"."$numCopia\n";
+
+
+            $matricola=$row['matricola'];
+            $inizio=$row['inizio'];
+
+            if(!copia_prestito_esiste($isbn,$numCopia,$matricola,$inizio))
+            {
+                //questa query mi inserisce i valori generari dentro la tabella copia_prestito
+                $qry="insert into copie_prestiti value ('$isbn','$numCopia','$matricola','$inizio')";
+                $result = $GLOBALS['connessione']->query($qry);
+                test_qry($result,"INSERT in tabella copia_prestito()");
+             }
+
+
+        }
 
 
 
