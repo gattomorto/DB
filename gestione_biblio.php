@@ -94,11 +94,13 @@ function crea_struttura_gestione_prestiti()
      * ritorna: una matrice */
 
 
-    $qry="select nome,cognome, utenti.matricola, prestiti.inizio, fine, titolo from copie_prestiti inner join  utenti on 
+    $qry="select nome,cognome, utenti.matricola, prestiti.inizio, fine, restituito, titolo from copie_prestiti inner join  utenti on 
                copie_prestiti.matricola=utenti.matricola inner join libri l on copie_prestiti.isbn = l.isbn
                inner join prestiti on copie_prestiti.matricola = prestiti.matricola and copie_prestiti.inizio = prestiti.inizio";
 
     $result = $GLOBALS['connessione']->query($qry);
+
+    echo "NUMERO RIGHE: ". mysqli_num_rows($result)."\n";
 
     $primaPosizioneDisponibile=0;
     $tab=[];
@@ -109,7 +111,10 @@ function crea_struttura_gestione_prestiti()
         $matricola = $row['matricola'];
         $dataInizio = $row['inizio'];
         $dataFine = $row['fine'];
+        $restituito=$row['restituito'];
         $titolo = $row['titolo'];
+
+
 
         $indicePresito = prestito_inserito($tab,$row);
 
@@ -128,10 +133,10 @@ function crea_struttura_gestione_prestiti()
         if($indicePresito!==false)
         {
 
-            end($tab[$indicePresito][5]);
-            $ultimoIndiceLibri=key($tab[$indicePresito][5]);
+            end($tab[$indicePresito][6]);
+            $ultimoIndiceLibri=key($tab[$indicePresito][6]);
             //$libri[$ultimoIndiceLibri+1]=$titolo;
-            $tab[$indicePresito][5][$ultimoIndiceLibri+1]=$titolo;
+            $tab[$indicePresito][6][$ultimoIndiceLibri+1]=$titolo;
 
 
 
@@ -144,10 +149,11 @@ function crea_struttura_gestione_prestiti()
             $riga[2]=$matricola;
             $riga[3]=$dataInizio;
             $riga[4]=$dataFine;
+            $riga[5]=$restituito;
 
             $libri[0]=$titolo;
 
-            $riga[5]=$libri;
+            $riga[6]=$libri;
 
             $tab[$primaPosizioneDisponibile]=$riga;
 

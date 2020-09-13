@@ -97,7 +97,7 @@ include "gestione_biblio.php";
         $tab = crea_struttura_gestione_prestiti();
         $size = sizeof($tab);
 
-        $dataOggi = date('Y-m-d');
+        //$dataOggi = date('Y-m-d');
 
         for ($i = 0; $i < $size; $i++) {
             $nome = $tab[$i][0];
@@ -105,10 +105,11 @@ include "gestione_biblio.php";
             $matricola = $tab[$i][2];
             $dataInizio = $tab[$i][3];
             $dataFine = $tab[$i][4];
-            $libriPerIlPrestitoI = $tab[$i][5];
+            $restituisci=$tab[$i][5];
+            $libriPerIlPrestitoI = $tab[$i][6];
 
 
-            if ($dataFine > $dataOggi) {
+            if ($restituisci==0) {
 
                 echo "
                   <tr>
@@ -170,7 +171,7 @@ include "gestione_biblio.php";
             $tab = crea_struttura_gestione_prestiti();
             $size = sizeof($tab);
 
-            $dataOggi = date('Y-m-d');
+            //$dataOggi = date('Y-m-d');
 
             for ($i = 0; $i < $size; $i++) {
                 $nome = $tab[$i][0];
@@ -178,10 +179,11 @@ include "gestione_biblio.php";
                 $matricola = $tab[$i][2];
                 $dataInizio = $tab[$i][3];
                 $dataFine = $tab[$i][4];
-                $libriPerIlPrestitoI = $tab[$i][5];
+                $restituisci=$tab[$i][5];
+                $libriPerIlPrestitoI = $tab[$i][6];
 
 
-                if ($dataFine < $dataOggi) {
+                if ($restituisci==1) {
 
                     echo "
                   <tr>
