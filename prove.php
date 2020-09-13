@@ -7,8 +7,8 @@ $tab=crea_struttura_gestione_prestiti();
 foreach ($tab as $presito)
 {
 
-    echo $presito[0]." ".$presito[1]." ".$presito[2]." ".$presito[3]." ".$presito[4]." Libri: ";
-    foreach ($presito[5] as $libro)
+    echo $presito[0]." ".$presito[1]." ".$presito[2]." ".$presito[3]." ".$presito[4]." ".$presito[5]." Libri: ";
+    foreach ($presito[6] as $libro)
     {
         echo $libro.", ";
     }
@@ -16,6 +16,7 @@ foreach ($tab as $presito)
     echo "\n";
 
 }
+
 
 
 

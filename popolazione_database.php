@@ -16,7 +16,7 @@ popola_succursali();
 popola_libri();
 popola_utenti();
 popola_autori();
-popola_prestiti(3,2);
+popola_prestiti(30,20);
 popola_libri_autori();
 popola_copie();
 popola_copie_prestiti(10);
@@ -129,7 +129,8 @@ function cancella_e_crea_database()
     $qry="CREATE TABLE `prestiti` (
           `matricola` varchar(255) NOT NULL,
           `inizio` date NOT NULL,
-          `fine` date,
+          `fine` date not null,
+          restituito boolean not null,
           PRIMARY KEY (`matricola`,`inizio`),
           FOREIGN KEY (`matricola`) REFERENCES `utenti` (`matricola`)  ON DELETE NO ACTION ON UPDATE CASCADE)";
 
@@ -402,17 +403,19 @@ function popola_utenti()
 
 
 }
-function popola_prestiti($numPresitiConclusi,$numPrestitiAttivi)
+function popola_prestiti($numPresitiScaduti,$numPrestitiNonScaduti)
 {
     /*
-     * La funzione inserisce un certo numero di presiti nella tabella 'presiti'
      *
-     *prende come paramentri un numero di prestiti conclusi e un numero di prestiti attivi in scelta arbitraria
-     *
+     * Si generano dei presiti scaduti (il perdiodo concesso di 30 gioni è finito) e presiti non scaduti (i libri del
+     * presito possono ancora essere tenuti)
+     * I prestiti scaduti sono tutti restituiti, mentre di quelli non scaduti alcuni sono restituiti alcunu no
      */
 
+    $dataOggi=date('Y-m-d');
     //prestiti conclusi
-    while($numPresitiConclusi!=0)
+
+    while($numPresitiScaduti!=0)
     {
         //seleziono una matricola in modo casuale dalla tabella utenti
         $qry = "select matricola from utenti order by rand()limit 1";
@@ -421,37 +424,53 @@ function popola_prestiti($numPresitiConclusi,$numPrestitiAttivi)
         $utente= $result->fetch_assoc();
 
 
-
-
         //uso la funzione che mi genera le date ottenedo un array
         $prestitoConclusoArray=generaInizioFinePrestito("concluso");
-
         $matricolaRand=$utente['matricola'];
-        //inserisco matricola data inizio e data fine del prestito
-        $qry="insert into prestiti values ('$matricolaRand','$prestitoConclusoArray[0]','$prestitoConclusoArray[1]')";
-        $result = $GLOBALS['connessione']->query($qry);
-        test_qry($result,"INSERT prestito concluso su tabella popla_prestiti()");
-        $numPresitiConclusi--;
+        //inserisco matricola data inizio e data fine del prestito e che è resituito
+
+
+        if(!prestito_esiste($matricolaRand,$prestitoConclusoArray[0]))
+        {
+
+            $qry="insert into prestiti values ('$matricolaRand','$prestitoConclusoArray[0]','$prestitoConclusoArray[1]',1)";
+            //echo  $qry."\n";
+            $result = $GLOBALS['connessione']->query($qry);
+            test_qry($result,"INSERT prestito concluso su tabella popla_prestiti()");
+            $numPresitiScaduti--;
+        }
+
+
     }
 
+
     //prestiti attivi
-    while($numPrestitiAttivi!=0)
-    {
+    while($numPrestitiNonScaduti!=0) {
 
         $qry = "select matricola from utenti order by rand()limit 1";
         $result = $GLOBALS['connessione']->query($qry);
-        test_qry($result,"SELECT in tabella utenti, per la funzione popla_prestito()");
-        $utente= $result->fetch_assoc();
-        test_qry($result,"SELECT da utenti la matricola rand");
+        test_qry($result, "SELECT in tabella utenti, per la funzione popla_prestito()");
+        $utente = $result->fetch_assoc();
+        test_qry($result, "SELECT da utenti la matricola rand");
 
-        $prestiAttiviArray=generaInizioFinePrestito("attivi");
-        $matricolaRand=$utente['matricola'];
+        $prestiAttiviArray = generaInizioFinePrestito("attivi");
+        $matricolaRand = $utente['matricola'];
 
-        $qry="insert into prestiti values ('$matricolaRand','$prestiAttiviArray[0]','$prestiAttiviArray[1]')";
-        $result = $GLOBALS['connessione']->query($qry);
-        test_qry($result,"INSERT prestiti attivi su tabella popola_prestiti()");
-        $numPrestitiAttivi--;
+        $bool = rand(0, 1);
+
+        if(!prestito_esiste($matricolaRand,$prestiAttiviArray[0]))
+        {
+            $qry = "insert into prestiti values ('$matricolaRand','$prestiAttiviArray[0]','$prestiAttiviArray[1]','$bool')";
+            echo $qry."\n";
+            $result = $GLOBALS['connessione']->query($qry);
+            test_qry($result, "INSERT prestiti attivi su tabella popola_prestiti()");
+            $numPrestitiNonScaduti--;
+        }
+
+
+
     }
+
 
 }
 function popola_libri_autori()
@@ -683,6 +702,30 @@ function rimmuovi_doppioni()
     file_put_contents('../Dati_25_05_2020.csv', implode(PHP_EOL, $lines));
 
 }
+function prestito_esiste($matricola, $dataInizio)
+{
+    /* questa funzione mi serve ad evitare di avere doppioni su popola_prestito() in quanto maricola e dataInizio sono
+    chiavi primarie*/
+
+   $qry="select matricola, inizio from prestiti where matricola='$matricola' and inizio='$dataInizio'";
+   $result = $GLOBALS['connessione']->query($qry);
+   test_qry($result, "SELECT in prestito_esiste()");
+   $numRighe=mysqli_num_rows($result);
+
+
+   if($numRighe==1)
+   {
+       return true;
+   }
+   else
+   {
+       return false;
+   }
+
+
+
+}
+
 
 /////////////////////////////////////////////////////////////TEST///////////////////////////////////////////////////////
 
