@@ -1,18 +1,37 @@
-<!DOCTYPE html>
-
 <?php
 include "gestione_biblio.php";
+
+if(isset($_GET['matricola']) and isset($_GET['inizio']))
+{
+    restituisci_prestito($_GET['matricola'],$_GET['inizio']);
+}
+
+if (isset($_GET['testo'])) {
+
+    $tab = filtra($_GET['testo']);
+}
+else
+{
+    $tab = crea_struttura_gestione_prestiti();
+}
+
+
 ?>
+
+
+<!DOCTYPE html>
+
+
 <html lang="en">
 <head>
 
     <style>
         table, th, td {
-            border: 1px solid black;
+            border: 1px solid #090404;
             border-collapse: collapse;
         }
         .corner_left {
-            border-top: 1px solid #FFFFFF;
+            border-top: 1px solid #ffffff;
             border-left: 1px solid #FFFFFF;
             border-bottom: 1px solid #FFFFFF;
 
@@ -66,9 +85,10 @@ include "gestione_biblio.php";
 
 
     <form action="">
-        <input  size="25" style="font-size:larger" type=”text”>
-        <button type=”submit” style="font-size:20px">cerca</button>
+        <input  size="25" style="font-size:larger" type=”text” name="testo" >
+        <button  type=”submit” style="font-size:20px">cerca</button>
     </form><br>
+
 
     <div align="left">
 
@@ -94,7 +114,6 @@ include "gestione_biblio.php";
         <?php
 
 
-        $tab = crea_struttura_gestione_prestiti();
         $size = sizeof($tab);
 
         //$dataOggi = date('Y-m-d');
@@ -105,35 +124,40 @@ include "gestione_biblio.php";
             $matricola = $tab[$i][2];
             $dataInizio = $tab[$i][3];
             $dataFine = $tab[$i][4];
-            $restituisci=$tab[$i][5];
-            $libriPerIlPrestitoI = $tab[$i][6];
+            $restituito=$tab[$i][5];
+            $libriDelPrestito = $tab[$i][6];
 
 
-            if ($restituisci==0) {
+            if ($restituito==0) {
 
                 echo "
                   <tr>
-                        <td class='left_bottom'width='80' height='40'> <form action=''>
-                        <button type='submit'>-></button>
-                         </form>
-                         </td>
-                             <td>$nome</td>
-                             <td>$cognome</td>
-                             <td>$matricola</td>
-                             <td>$dataInizio</td>
-                             <td>$dataFine</td>";
+                        <td class='left_bottom'width='80' height='40'> 
+                            <form action='utente.php' method='get'>
+                                <input type='hidden' name='matricola' value='$matricola'>
+                                <button type='submit'>-></button>
+                            </form>
+                        </td>
+                             <td align='center'>$nome</td>
+                             <td align='center'>$cognome</td>
+                             <td align='center'>$matricola</td>
+                             <td align='center'>$dataInizio</td>
+                             <td align='center'>$dataFine</td>";
 
                 echo "<td>";
-                foreach ($libriPerIlPrestitoI as $libro) {
+                foreach ($libriDelPrestito as $libro) {
                     echo $libro . "<br>";
                 }
                 echo "</td>";
 
-                echo "<td class='right_bottom'' width='70'><form action=''>
-                             <button style='font-size: medium' type='submit'>restituito</button>
+                echo "<td class='right_bottom'' width='70'>
+                             <form action='' method='get'>
+                                 <input type='hidden' name='matricola' value='$matricola'>
+                                 <input type='hidden' name='inizio' value='$dataInizio'>
+                                 <button style='font-size: medium' type='submit'>restituito</button>
                              </form>
-                             </tdclass>
-                       </tr>";
+                      </td>
+                </tr>";
 
 
 
@@ -167,10 +191,6 @@ include "gestione_biblio.php";
 
 
             <?php
-
-            $tab = crea_struttura_gestione_prestiti();
-            $size = sizeof($tab);
-
             //$dataOggi = date('Y-m-d');
 
             for ($i = 0; $i < $size; $i++) {
@@ -179,26 +199,28 @@ include "gestione_biblio.php";
                 $matricola = $tab[$i][2];
                 $dataInizio = $tab[$i][3];
                 $dataFine = $tab[$i][4];
-                $restituisci=$tab[$i][5];
-                $libriPerIlPrestitoI = $tab[$i][6];
+                $restituito=$tab[$i][5];
+                $libriDelPrestito = $tab[$i][6];
 
 
-                if ($restituisci==1) {
+                if ($restituito==1) {
 
                     echo "
                   <tr>
-                        <td class='left_bottom'width='80' height='40'> <form action=''>
-                        <button type='submit'>-></button>
-                         </form>
+                        <td class='left_bottom'width='80' height='40'> 
+                            <form action='utente.php' method='get'>
+                                <input type='hidden' name='matricola' value='$matricola'>
+                                <button type='submit'>-></button>
+                            </form>
                          </td>
-                             <td>$nome</td>
-                             <td>$cognome</td>
-                             <td>$matricola</td>
-                             <td>$dataInizio</td>
-                             <td>$dataFine</td>";
+                             <td align='center'>$nome</td>
+                             <td align='center'>$cognome</td>
+                             <td align='center'>$matricola</td>
+                             <td align='center'>$dataInizio</td>
+                             <td align='center'>$dataFine</td>";
 
                     echo "<td>";
-                    foreach ($libriPerIlPrestitoI as $libro) {
+                    foreach ($libriDelPrestito as $libro) {
                         echo $libro . "<br>";
                     }
                     echo "</td>";

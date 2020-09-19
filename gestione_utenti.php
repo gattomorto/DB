@@ -5,6 +5,27 @@ include "gestione_biblio.php";
 
 
 ?>
+
+<style>
+
+    table, th, td {
+        border: 1px solid #090404;
+        border-collapse: collapse;
+    }
+    .corner_left {
+        border-top: 1px solid #ffffff;
+        border-left: 1px solid #FFFFFF;
+        border-bottom: 1px solid #FFFFFF;
+    }
+
+    .left_bottom {
+        border-left: 1px solid #FFFFFF;
+        border-bottom: 1px solid #FFFFFF;
+
+    }
+
+
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,7 +47,7 @@ include "gestione_biblio.php";
     <table border="1" width="1200" align="center" cellspacing="1">
 
     <tr>
-        <td width="80" height="40">bot1</td>
+        <td width="80" height="40" class="corner_left"></td>
         <td><strong>Nome</strong></td>
         <td><strong>Cognome</strong></td>
         <td><strong>Matricola</strong></td>
@@ -53,7 +74,7 @@ include "gestione_biblio.php";
 
            echo"
                 <tr>
-                    <td width='80' height='40'>
+                    <td  class='left_bottom' width='80' height='40'>
                         <form action=''>
                             <button type='submit'>-></button>
                         </form>
