@@ -9,7 +9,7 @@ include "gestione_biblio.php";
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>nuovo/modifica</title>
+    <title>nuovo</title>
 </head>
 <body>
 
