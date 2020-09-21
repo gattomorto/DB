@@ -3,6 +3,19 @@
 <?php
 include "gestione_biblio.php";
 
+if(isset($_GET['salva']))
+{
+    $matricola=$_GET['testoMatricola'];
+    $nome=$_GET['testoNome'];
+    $cognome=$_GET['testoCognome'];
+    $indirizzo=$_GET['testoIndirizzo'];
+    $telefono=$_GET['testoTelefono'];
+
+    $qry="insert into utenti values ('$nome','$cognome','$indirizzo','$telefono','$matricola')";
+    $GLOBALS['connessione']->query($qry);
+}
+
+
 if(isset($_GET['cerca']))
 {
     $result=filtra_utenti($_GET['cerca']);
@@ -12,6 +25,7 @@ else
     $qry="select * from utenti";
     $result = $GLOBALS['connessione']->query($qry);
 }
+
 
 ?>
 
@@ -115,7 +129,7 @@ else
             
                     <td  class='c'></td>
                 <td colspan='5' height='50' class='c'>
-                         <form action=''>
+                         <form action='nuovo_modifica_utente.php'>
                          <button type=”submit” style='font-size: large'>Nuovo Uente</button>
                           </form>
                 

@@ -120,7 +120,7 @@ function cancella_e_crea_database()
           `cognome` varchar(255),
           `indirizzo` varchar(255),
           `telefono` varchar(255),
-          `matricola` varchar(255),
+          `matricola` varchar(255) not null,
            PRIMARY KEY (`matricola`))";
 
     $result = $GLOBALS['connessione']->query($qry);
