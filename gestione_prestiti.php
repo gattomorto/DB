@@ -8,7 +8,7 @@ if(isset($_GET['matricola']) and isset($_GET['inizio']))
 
 if (isset($_GET['testo'])) {
 
-    $tab = filtra($_GET['testo']);
+    $tab = filtra_prestiti($_GET['testo']);
 }
 else
 {
@@ -106,7 +106,7 @@ else
             <td><strong>Cognome</strong></td>
             <td><strong>Matricola</strong></td>
             <td><strong>Data uscita</strong></td>
-            <td><strong>Data rientro</strong></td>
+            <td><strong>Scadenza</strong></td>
             <td><strong>Libri</strong></td>
             <td class="corner_right" width="70"></td>
         </tr>

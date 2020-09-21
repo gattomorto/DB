@@ -17,7 +17,7 @@ popola_libri();
 popola_utenti();
 popola_autori();
 
-popola_prestiti(30,20);
+popola_prestiti(20,10);
 
 popola_libri_autori();
 popola_copie();
@@ -120,7 +120,7 @@ function cancella_e_crea_database()
           `cognome` varchar(255),
           `indirizzo` varchar(255),
           `telefono` varchar(255),
-          `matricola` varchar(255) NOT NULL,
+          `matricola` varchar(255),
            PRIMARY KEY (`matricola`))";
 
     $result = $GLOBALS['connessione']->query($qry);
@@ -405,19 +405,18 @@ function popola_utenti()
 
 
 }
-function popola_prestiti($numPresitiScaduti,$numPrestitiNonScaduti)
+function popola_prestiti($numPrestitiRestituiti,$numPrestitiNonRestituiti)
 {
     /*
+     *questa funzione serve a genera un certo numero di prestiti restituiti e un certo numero di prestiti
+     * attivi (non restituiti)
      *
-     * Si generano dei presiti scaduti (il perdiodo concesso di 30 gioni è finito) e presiti non scaduti (i libri del
-     * presito possono ancora essere tenuti)
-     * I prestiti scaduti sono tutti restituiti, mentre di quelli non scaduti alcuni sono restituiti alcunu no
+     *
      */
 
-    $dataOggi=date('Y-m-d');
-    //prestiti conclusi
 
-    while($numPresitiScaduti!=0)
+    //prestiti conclusi
+    while($numPrestitiRestituiti!=0)
     {
         //seleziono una matricola in modo casuale dalla tabella utenti
         $qry = "select matricola from utenti order by rand()limit 1";
@@ -439,7 +438,7 @@ function popola_prestiti($numPresitiScaduti,$numPrestitiNonScaduti)
             //echo  $qry."\n";
             $result = $GLOBALS['connessione']->query($qry);
             test_qry($result,"INSERT prestito concluso su tabella popla_prestiti()");
-            $numPresitiScaduti--;
+            $numPrestitiRestituiti--;
         }
 
 
@@ -447,7 +446,7 @@ function popola_prestiti($numPresitiScaduti,$numPrestitiNonScaduti)
 
 
     //prestiti attivi
-    while($numPrestitiNonScaduti!=0) {
+    while($numPrestitiNonRestituiti!=0) {
 
         $qry = "select matricola from utenti order by rand()limit 1";
         $result = $GLOBALS['connessione']->query($qry);
@@ -458,15 +457,15 @@ function popola_prestiti($numPresitiScaduti,$numPrestitiNonScaduti)
         $prestiAttiviArray = generaInizioFinePrestito("attivi");
         $matricolaRand = $utente['matricola'];
 
-        $bool = rand(0, 1);
+
 
         if(!prestito_esiste($matricolaRand,$prestiAttiviArray[0]))
         {
-            $qry = "insert into prestiti values ('$matricolaRand','$prestiAttiviArray[0]','$prestiAttiviArray[1]','$bool')";
+            $qry = "insert into prestiti values ('$matricolaRand','$prestiAttiviArray[0]','$prestiAttiviArray[1]',0)";
             echo $qry."\n";
             $result = $GLOBALS['connessione']->query($qry);
             test_qry($result, "INSERT prestiti attivi su tabella popola_prestiti()");
-            $numPrestitiNonScaduti--;
+            $numPrestitiNonRestituiti--;
         }
 
 

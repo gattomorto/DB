@@ -3,6 +3,15 @@
 <?php
 include "gestione_biblio.php";
 
+if(isset($_GET['cerca']))
+{
+    $result=filtra_utenti($_GET['cerca']);
+}
+else
+{
+    $qry="select * from utenti";
+    $result = $GLOBALS['connessione']->query($qry);
+}
 
 ?>
 
@@ -21,8 +30,20 @@ include "gestione_biblio.php";
     .left_bottom {
         border-left: 1px solid #FFFFFF;
         border-bottom: 1px solid #FFFFFF;
-
     }
+
+    .left_bottom_right {
+        border-left: 1px solid #FFFFFF;
+        border-bottom: 1px solid #FFFFFF;
+        border-right: 1px solid #FFFFFF;
+    }
+
+    .c {
+        border-right: 1px solid #FFFFFF;
+        border-bottom: 1px solid #FFFFFF;
+        border-top: 1px solid #ffffff;
+        border-left: 1px solid #FFFFFF;
+        }
 
 
 </style>
@@ -38,13 +59,13 @@ include "gestione_biblio.php";
         <h1>Gestione utenti</h1>
     </div>
 
-    <form action="">
-        <input  size="25" style="font-size:larger" type=”text”>
+    <form action="" method="get">
+        <input size="25" style="font-size:larger" type=”text” name="cerca">
         <button type=”submit” style="font-size:20px">cerca</button>
     </form><br><br>
 
     <font size="5">
-    <table border="1" width="1200" align="center" cellspacing="1">
+    <table border="1" width="1200" align="left" cellspacing="1">
 
     <tr>
         <td width="80" height="40" class="corner_left"></td>
@@ -57,13 +78,12 @@ include "gestione_biblio.php";
     </tr>
     <?php
 
-    $qry="select * from utenti";
-    $result = $GLOBALS['connessione']->query($qry);
-    $numRighe=$qry->affected_rows;
 
 
-    for($i=0; $i<=$numRighe; $i++)
-    {
+
+
+   // for($i=0; $i<=$numRighe; $i++)
+    //{
        while( $row = $result->fetch_assoc())
        {
            $nome=$row['nome'];
@@ -75,7 +95,8 @@ include "gestione_biblio.php";
            echo"
                 <tr>
                     <td  class='left_bottom' width='80' height='40'>
-                        <form action=''>
+                        <form action='utente.php' method='get'>
+                         <input type='hidden' name='matricola' value='$matricola'>
                             <button type='submit'>-></button>
                         </form>
                      </td>
@@ -89,16 +110,31 @@ include "gestione_biblio.php";
 
        }
 
-    }
+       echo"
+            <tr>
+            
+                    <td  class='c'></td>
+                <td colspan='5' height='50' class='c'>
+                         <form action=''>
+                         <button type=”submit” style='font-size: large'>Nuovo Uente</button>
+                          </form>
+                
+                </td>
+            
+            
+            </tr>
+            
+              </table><br>
+              </font>";
+
+
+   // }
 
     ?>
 
-    </table><br>
-    </font>
 
-    <form action="">
-        <button type=”submit” style="font-size: large">Nuovo Uente</button>
-    </form>
+
+
 
 
     </body>

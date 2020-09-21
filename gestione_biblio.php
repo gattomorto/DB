@@ -194,19 +194,21 @@ function prestito_inserito($tab,$row)
 function restituisci_prestito($matricola,$inizio)
 {
 
-    /* dato un certo presitito la funzione imposta a "restituito" quel presito
+    /* dato un certo presitito la funzione imposta a "restituito" quel presito e aggiorna la data fine con
+        la data di oggi
 
     */
-
-    $qry="update prestiti set restituito=1 where matricola='$matricola' and inizio='$inizio'";
+    $dataOggi=date('Y-m-d');
+    $qry="update prestiti set restituito=1, fine='$dataOggi' where matricola='$matricola' and inizio='$inizio'";
     $GLOBALS['connessione']->query($qry);
+
 
     //test_qry($result,"update prestito in restituisci_prestito()");
 
 
 }
 
-function filtra($target)
+function filtra_prestiti($target)
 {
     /*
      * questa funzione mi restituisce  un array di prestiti che contengono la parola $target passatale
@@ -398,4 +400,48 @@ function stampa_tab($tab)
 
         echo "\n";
     }
+}
+
+function filtra_utenti($target)
+{
+    //echo $target."\n";
+
+    $pieces = explode(" ", $target);
+    $numPieces=count($pieces);
+
+
+
+    $k=0;
+    $qry = "";
+    for($i=0; $i<$numPieces; $i++) {
+
+        if ($k!=$numPieces-1){
+
+
+
+            $qry=$qry."select * from utenti
+            where indirizzo REGEXP '[[:<:]]$pieces[$i]' or nome REGEXP '[[:<:]]$pieces[$i]' or cognome REGEXP '[[:<:]]$pieces[$i]'
+            or matricola REGEXP '[[:<:]]$pieces[$i]' or telefono REGEXP '[[:<:]]$pieces[$i]' union ";
+
+        }
+
+        else
+        {
+
+
+            $qry=$qry."select * from utenti
+            where indirizzo REGEXP '[[:<:]]$pieces[$i]' or nome REGEXP '[[:<:]]$pieces[$i]' or cognome REGEXP '[[:<:]]$pieces[$i]'
+            or matricola REGEXP '[[:<:]]$pieces[$i]' or telefono REGEXP '[[:<:]]$pieces[$i]'";
+
+        }
+
+        $k++;
+
+    }
+
+    $result= $GLOBALS['connessione']->query($qry);
+   // echo $qry;
+
+    return $result;
+
 }
