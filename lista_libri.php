@@ -3,6 +3,20 @@
 <?php
 include "gestione_biblio.php";
 
+
+if(isset($_GET['cercaLibro']))
+{
+
+    $cerca=$_GET['cercaLibro'];
+    $result=filtra_libri($cerca);
+
+}
+else
+{
+    $qry="select * from libri inner join editori e on libri.editore = e.codice";
+    $result = $GLOBALS['connessione']->query($qry);
+}
+
 ?>
 
 <style>
@@ -37,13 +51,13 @@ include "gestione_biblio.php";
     </div>
 
     <form action="">
-        <input  size="25" style="font-size:larger" type=”text”>
+        <input  size="25" style="font-size:larger" type=”text” name="cercaLibro">
         <button type=”submit” style="font-size:20px">cerca</button>
     </form><br><br><br><br><br>
 
 
     <font size="5">
-        <table border="1" width="1000" align="left" cellspacing="1">
+        <table border="1" width="1300" align="left" cellspacing="1">
 
             <tr>
                 <td class="corner_left" width="80" height="50"></td>
@@ -57,30 +71,28 @@ include "gestione_biblio.php";
 
             <?php
 
-            $qry="select * from libri";
-            $result = $GLOBALS['connessione']->query($qry);
-            $numRighe=$qry->affected_rows;
 
-            for($i=0; $i<=$numRighe; $i++) {
+
 
                 while ($row = $result->fetch_assoc())
                 {
                     $isbn=$row['isbn'];
                     $titolo=$row['titolo'];
                     $lingua=$row['lingua'];
-                    $anno=$row['lingua'];
-                    $editore=$row['editore'];
+                    $anno=$row['anno'];
+                    $editore=$row['nome'];
 
 
                 echo"
                     <tr>
-                <td class='left_bottom' width='80' height='40'><form action=''>
+                <td class='left_bottom' width='80' height='40'><form action='libro.php'>
+                    <input type='hidden' name='isbn' value='$isbn'>
                     <button type='submit'>-></button>
                 </form>
                 </td>
                 <td>$isbn</td>
                 <td>$titolo</td>
-                <td>$anno</td>
+                <td width='100'>$anno</td>
                 <td>$lingua</td>
                 <td>$editore</td>
                 
@@ -88,7 +100,7 @@ include "gestione_biblio.php";
 
                 }
 
-            }
+
             ?>
 
         </table>
