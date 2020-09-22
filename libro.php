@@ -1,5 +1,14 @@
 <!DOCTYPE html>
+<?php
 
+include "gestione_biblio.php";
+
+
+
+    $isbnDaLista=$_GET['isbn'];
+   // $isbnDaLista='137066182-7';
+
+?>
 
 <style>
 
@@ -31,63 +40,156 @@
     <div align="center">
         <h1>Libro</h1>
     </div>
+<?php
 
-    <div style="font-size:30px; line-height: 1.6;">
-        <strong>ISBN</strong>: 88946985625<br>
-        <strong>Titolo</strong>: L' amica geniale<br>
-        <strong>Autore</strong>: Elena Ferrante<br>
-        <strong>Casa editrice</strong>: Einaudi<br>
-        <strong>Anno</strong>: 2019<br>
-        <strong>Lingua</strong>: inglese<br>
-        <strong>Succursale</strong>: matematica e informatica(2), economia(2), giurisprudenza(1)<br>
-        <strong>Numero copie</strong>: 5<br>
 
-    </div><br><hr><br><br><br>
+    $libri="select anno, lingua, titolo, e.nome, c.numero_copia from libri inner join editori e on libri.editore = e.codice
+    inner join copie c on libri.isbn = c.isbn
+    where libri.isbn='$isbnDaLista'";
+    $result = $GLOBALS['connessione']->query($libri);
+    $daLibri = $result->fetch_assoc();
 
-    <font size="5">
-        <table border="1" width="800" align="left" cellspacing="1">
 
+    $anno=$daLibri['anno'];
+    $lingua=$daLibri['lingua'];
+    $titolo=$daLibri['titolo'];
+    $nomeEditore=$daLibri['nome'];
+    $numCopia=$daLibri['numero_copia'];
+
+
+ echo"   <div style='font-size:30px; line-height: 1.6;'>
+        <strong>ISBN</strong>: $isbnDaLista<br>
+         <strong>Titolo</strong>: $titolo<br>
+        <strong>Autore</strong>: ";
+
+        $autori="select nome, cognome from libri_autori where isbn='$isbnDaLista'";
+        $risultato = $GLOBALS['connessione']->query($autori);
+        $numRighe=mysqli_num_rows($risultato);
+
+
+
+        while ($daAutori = $risultato->fetch_assoc())
+        {
+            $nome=$daAutori['nome'];
+            $cognome=$daAutori['cognome'];
+
+            if($numRighe!=1)
+            {
+                echo"$nome $cognome,"." ";
+
+            }
+            else
+            {
+                echo"$nome $cognome";
+            }
+
+            $numRighe--;
+
+        }
+
+ echo " <br>";
+ echo"      
+       <strong>Casa editrice</strong>: $nomeEditore<br>
+        <strong>Anno</strong>: $anno<br>
+        <strong>Lingua</strong>: $lingua<br>
+        <strong>Succursali</strong>: ";
+
+        $daCopie="select succursale, count(*) as numCopieG from copie where isbn='$isbnDaLista'
+        group by succursale having count(*);";
+        $result = $GLOBALS['connessione']->query($daCopie);
+        $numRighe=mysqli_num_rows($result);
+
+        while( $copie = $result->fetch_assoc())
+        {
+             $nome=$copie['succursale'];
+             $quantita=$copie['numCopieG'];
+
+             if($numRighe!=1)
+             {
+                 echo" $nome ($quantita),"." ";
+             }
+             else
+             {
+                 echo" $nome ($quantita)";
+             }
+
+               $numRighe--;
+        }
+
+
+echo "<br>";
+
+        $countCopie="select count(*)as cop from copie where isbn='$isbnDaLista'";
+        $result = $GLOBALS['connessione']->query($countCopie);
+        $numCopie = $result->fetch_assoc();
+        $numero=$numCopie['cop'];
+ echo"  
+        <strong>Numero copie</strong>: $numero<br>
+
+    </div><br><hr><br>";
+
+
+ ?>
+
+ <?php
+        echo"<div align='left'>
+                <h1><strong>In prestito a:</strong></h1>
+
+            </div><br>";
+
+
+
+        echo " <font size='5'>
+        <table border='1' width='800' align='left' cellspacing='1'>
+        
             <tr>
-                <td class="corner_left " width="80" height="50">bot1</td>
+                <td class='corner_left' width='80' height='50'></td>
                 <td ><strong>Nome</strong></td>
                 <td><strong>Cognome</strong></td>
                 <td><strong>Matricola</strong></td>
-            </tr>
+                 <td><strong>Copia</strong></td>
+                
+            </tr>";
 
-            <tr>
-                <td class="left_bottom " width="80" height="40"><form action="">
-                    <button type=”submit”>-></button>
+
+         $tab="select nome, cognome, cp.matricola, numero_copia
+                from copie_prestiti cp inner join prestiti p on cp.matricola = p.matricola and cp.inizio = p.inizio
+                inner  join utenti u on cp.matricola = u.matricola
+                where isbn='$isbnDaLista' and restituito=0";
+         $result = $GLOBALS['connessione']->query($tab);
+
+        while($tab = $result->fetch_assoc())
+        {
+                $nome=$tab['nome'];
+                $cognome=$tab['cognome'];
+                $matricola=$tab['matricola'];
+                $numCopia=$tab['numero_copia'];
+            echo" 
+            
+             <tr>
+                <td class='left_bottom'  width='80' height='40'>
+                <form action='utente.php' method='get'>
+                <input type='hidden' name='matricola' value='$matricola'>
+                    <button type='submit'>-></button>
                 </form>
                 </td>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
+                <td>$nome</td>
+                <td>$cognome</td>
+                <td>$matricola</td>
+                <td>$numCopia</td>
             </tr>
+            
+            ";
+
+        }
+
+  echo"  </table>
+         </font>";
 
 
-            <tr>
-                <td class="left_bottom " width="80" height="40"><form action="">
-                    <button type=”submit”>-></button>
-                </form>
-                </td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-            </tr>
 
-            <tr>
-                <td class="left_bottom " width="80" height="40"><form action="">
-                    <button type=”submit”>-></button>
-                </form>
-                </td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-            </tr>
 
-        </table>
-    </font>
-
+ ?>
 
 </body>
 </html>

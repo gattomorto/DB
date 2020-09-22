@@ -445,3 +445,36 @@ function filtra_utenti($target)
     return $result;
 
 }
+
+function filtra_libri($target)
+{
+    $pieces = explode(" ", $target);
+    $numPieces = count($pieces);
+
+
+
+    $k = 0;
+    $qry = "";
+    for ($i = 0; $i < $numPieces; $i++) {
+
+        if ($k != $numPieces - 1) {
+            $qry = $qry."select * from libri inner join editori e on libri.editore = e.codice
+                        where isbn REGEXP '[[:<:]]$pieces[$i]' or titolo REGEXP '[[:<:]]$pieces[$i]'
+                        or anno  REGEXP '[[:<:]]$pieces[$i]' or lingua REGEXP '[[:<:]]$pieces[$i]' 
+                        or nome REGEXP '[[:<:]]$pieces[$i]' union ";
+        }
+        else
+        {
+            $qry = $qry."select * from libri inner join editori e on libri.editore = e.codice
+                        where isbn REGEXP '[[:<:]]$pieces[$i]' or titolo REGEXP '[[:<:]]$pieces[$i]'
+                        or anno REGEXP '[[:<:]]$pieces[$i]' or lingua REGEXP '[[:<:]]$pieces[$i]' 
+                        or nome REGEXP '[[:<:]]$pieces[$i]'";
+        }
+
+     $k++;
+    }
+
+    $result= $GLOBALS['connessione']->query($qry);
+    echo "$qry";
+    return $result;
+}
