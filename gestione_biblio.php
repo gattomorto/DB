@@ -475,6 +475,84 @@ function filtra_libri($target)
     }
 
     $result= $GLOBALS['connessione']->query($qry);
-    echo "$qry";
+
     return $result;
+}
+
+function filtra_nuovo_prestito($nome, $cognome, $matricola)
+{
+    $qry="select * from utenti 
+          where nome REGEXP '[[:<:]]$nome' and cognome REGEXP '[[:<:]]$cognome' and matricola REGEXP '[[:<:]]$matricola'";
+    $result= $GLOBALS['connessione']->query($qry);
+
+
+    return $result;
+
+
+}
+
+function filtra_libro($titolo, $isbn)
+{
+
+    $pieces = explode(" ", $titolo);
+    $numPieces = count($pieces);
+
+    $v=[];
+
+    for($i=0; $i<$numPieces; $i++)
+    {
+        $qry="select * from libri 
+           where titolo REGEXP '[[:<:]]$pieces[$i]' and isbn REGEXP '[[:<:]]$isbn'";
+        $result= $GLOBALS['connessione']->query($qry);
+
+        $v[$i]=$result;
+
+    }
+
+
+    $j=0;
+    $trovato=false;
+    while($rowPrimo = $v[0]->fetch_assoc())
+    {
+        $isbnPrimo=$rowPrimo['isbn'];
+
+        //tabella
+        for($k=1; $k<$numPieces; $k++)
+        {
+            while($row = $v[$k]->fetch_assoc())
+            {
+                $isbn=$row['isbn'];
+
+                if($isbnPrimo==$isbn ){
+                    $trovato=true;
+                    if($k==$numPieces-1) {
+                        $result[$j] = $row;
+                        $j++;
+                        break;
+
+                    }
+
+
+                }
+
+            }
+
+            $v[$k]->data_seek(0);
+
+            if($trovato === false)
+            {
+                break;
+            }
+            $trovato = false;
+
+
+        }
+
+    }
+
+
+    return $result;
+
+
+
 }
