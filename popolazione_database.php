@@ -1,5 +1,5 @@
 <?php
-
+include "gestione_biblio.php";
 rimmuovi_doppioni();
 $con = connetti();
 mysqli_set_charset($con, "utf8");
@@ -555,7 +555,7 @@ function popola_copie_prestiti()
 {
     /*
      * questa funzione serve a popolare la tabella copie_prestiti.
-     * parametro: $numPrestiti che e un numero arbitrario che mi dice quanti prestiti generare
+     *
      */
 
     $qry="select matricola, inizio from prestiti";
@@ -570,7 +570,7 @@ function popola_copie_prestiti()
         for($i=0; $i<$numLibriPerPrestito; $i++)
         {
             //estraggo una copia a caso
-            $qry="select isbn, numero_copia from copie order by rand()limit 1 ";
+            $qry="select isbn, numero_copia from copie order by rand()limit 1";
             $daCopie = $GLOBALS['connessione']->query($qry);
             test_qry($daCopie,"SELECT da tabella 'copie' in popola_copie_prestiti()");
             //questo ciclo prende ad ogni giro una riga dell array associativo generato dalla tabella copie
@@ -584,8 +584,9 @@ function popola_copie_prestiti()
             $matricola=$row['matricola'];
             $inizio=$row['inizio'];
 
-            if(!copia_prestito_esiste($isbn,$numCopia,$matricola,$inizio))
+            if(!copia_prestito_esiste($isbn,$numCopia,$matricola,$inizio) and copia_fuori($isbn,$numCopia)===false)
             {
+
                 //questa query mi inserisce i valori generari dentro la tabella copia_prestito
                 $qry="insert into copie_prestiti value ('$isbn','$numCopia','$matricola','$inizio')";
                 $result = $GLOBALS['connessione']->query($qry);
@@ -600,6 +601,7 @@ function popola_copie_prestiti()
     }
     
 }
+
 
 function connetti()
 {

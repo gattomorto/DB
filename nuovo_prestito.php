@@ -3,31 +3,37 @@
 <?php
 include "gestione_biblio.php";
 
-//e stato premuto il bottone cerca
-if(isset($_GET['testoNome']) or isset($_GET['testoCognome']) or isset($_GET['testoMatricola']))
+if(isset($_GET['utenteCercato']))
 {
+    $utenteCercato=$_GET['utenteCercato'];
+    $libroCercato = $_GET['libroCercato'];
+    $vN= $_GET['testoNome'];
+    $vC= $_GET['testoCognome'];
+    $vM = $_GET['testoMatricola'];
 
-    $tNome=$_GET['testoNome'];
-    $tCognome=$_GET['testoCognome'];
-    $tMatricola=$_GET['testoMatricola'];
-
-
-    //la unzione filtra i dati
-    $utenti=filtra_nuovo_prestito($tNome, $tCognome,$tMatricola);
-
+    $vT = $_GET['testoTitolo'];
+    $vI = $_GET['testoIsbn'];
 }
 else
-{   //alrimenti la tabella e piena di utenti
-    $qry="select * from utenti";
-    $utenti= $GLOBALS['connessione']->query($qry);
+{
+    $utenteCercato=0;
+    $libroCercato = 0;
+    $vN= "";
+    $vC= "";
+    $vM = "";
 
+    $vT = "";
+    $vI = "";
 
 
 }
 
 
 ?>
+<?php
 
+
+?>
 
 <html lang="en">
 <head>
@@ -41,15 +47,13 @@ else
     </div><br><br>
 
 <!--tabella esterna    -->
-    <table border="1" width="1500" align="center" cellspacing="1">
+    <table border="1" width="1700" align="center" cellspacing="1">
 
  <?php
  //se seleziona e stato premuto il primo blocco sparisce
- if(isset($_GET['matricola']))
- {
 
- }//altrimenti il bolocco e normale
- else {
+
+
      echo "  <tr> //prima riga esterna
         <td>//tabella esterna 1 cella
             <font size='5'>
@@ -58,18 +62,25 @@ else
                  <tr>
                     <form action='' method='get'>
                     <td width='350'>Nome<br>
-                        <input  size='15' style='font-size:larger' type='text' name='testoNome'>
+                        <input  size='15' style='font-size:larger' type='text' name='testoNome' value=$vN>
                     </td>
                     <td width='350'>Cognome
-                        <input  size='15' style='font-size:larger' type='text' name='testoCognome'>
+                        <input  size='15' style='font-size:larger' type='text' name='testoCognome' value='$vC'>
                     </td>
                     <td width='350'>Matricola
-                        <input  size='15' style='font-size:larger' type='text' name='testoMatricola'>
+                        <input  size='15' style='font-size:larger' type='text' name='testoMatricola' value='$vM'>
                     </td>
                     <td valign='bottom'>
 
 
-                            <button type='submit' style='font-size: 29.5px'>cerca</button>
+                    <button type='submit' style='font-size: 29.5px'>cerca</button>
+                    <input type='hidden' name='utenteCercato' value='1'>
+                    <input type='hidden' name='libroCercato' value=$libroCercato>
+                    <input type='hidden' name='testoTitolo' value=$vT>
+                    <input type='hidden' name='testoIsbn' value=$vI>
+                    
+                    
+                    
 
                 </form>
             </tr>
@@ -95,15 +106,27 @@ else
             </tr>";
 
 
-     while ($row = $utenti->fetch_assoc()) {
-         $nome = $row['nome'];
-         $cognome = $row['cognome'];
-         $matricola = $row['matricola'];
-         $indirizzo = $row['indirizzo'];
-         $telefono = $row['telefono'];
+
+     if($utenteCercato==1) {
 
 
-         echo "
+         $tNome=$_GET['testoNome'];
+         $tCognome=$_GET['testoCognome'];
+         $tMatricola=$_GET['testoMatricola'];
+
+
+         //la unzione filtra i dati
+         $utenti=filtra_utenti_nuovo_prestito($tNome, $tCognome,$tMatricola);
+
+         while ($row = $utenti->fetch_assoc()) {
+             $nome = $row['nome'];
+             $cognome = $row['cognome'];
+             $matricola = $row['matricola'];
+             $indirizzo = $row['indirizzo'];
+             $telefono = $row['telefono'];
+
+
+             echo "
                   <tr>
 
                         <td>$nome</td>
@@ -120,6 +143,7 @@ else
 
                   </tr>";
 
+         }
      }
 
 
@@ -127,7 +151,7 @@ else
           </font><br><br><br><br><br><br><br><br><br><br><br><br><br><hr><br><br>";
      echo "</td>";//chiusa prima cella
      echo "</tr>"; //  chiusa prima riga
- }
+
 ?>
         //tabella1
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
@@ -139,19 +163,26 @@ else
                 <table border="0" width="1500" align="left" cellspacing="1">
 
                 <tr>
-                    <form action="">
+                    <form action="" method="get">
                     <td width="350">Titolo<br>
-                        <input  size="15" style="font-size:larger" type=”text” name="testoTitolo">
+                        <input  size="15" style="font-size:larger" type=”text” name="testoTitolo" value=<?php echo "$vT";?>>
                     </td>
 
                      <td width="350"> Isbn<br>
-                        <input  size="15" style="font-size:larger" type=”text” name="testoIsbn">
+                        <input  size="15" style="font-size:larger" type=”text” name="testoIsbn" value=<?php echo "$vI";?>>
                      </td>
 
                     <td valign="bottom">
 
+                    <input type="hidden" name="utenteCercato" value= <?php echo $utenteCercato; ?>>
+                    <input type="hidden" name="testoNome" value=<?php echo $vN;?>>
+                    <input type="hidden" name="testoCognome" value=<?php echo $vC;?>>
+                    <input type="hidden" name="testoMatricola" value=<?php echo $vM;?>>
+                    <input type="hidden" name="libroCercato" value="1">
 
-                        <button type=”submit” style="font-size: 29.5px">cerca</button>
+                    <button type=”submit” style="font-size: 29.5px">cerca</button>
+
+
                     </form>
             </tr>
 
@@ -161,103 +192,137 @@ else
 
 
         <font size="5">
-        <table border="1" width="1000" align="left" cellspacing="1">
+        <table border="1" width="1700" align="left" cellspacing="1">
 
             <tr>
-                <td ><strong>ISBN</strong></td>
+                <td width="150"><strong>ISBN</strong></td>
                 <td><strong>Titolo</strong></td>
                 <td><strong>Autore</strong></td>
                 <td><strong>Editore</strong></td>
                 <td><strong>Anno</strong></td>
                 <td><strong>Lingua</strong></td>
+                <td><strong>Numero copia</strong></td>
+                <td><strong>Succursale</strong></td>
                 <td width="80" height="50">bot1</td>
             </tr>
 
+
+
+
+
 <?php
-if(isset($_GET['testoTitolo'])  and $_GET['testoIsbn'])
-{
-    $titolo=$_GET['testoTitolo'];
-    $isbn=$_GET['testoIsbn'];
-
-    $result=filtra_libro($titolo, $isbn);
 
 
-    while($row = $result->fetch_assoc())
-    {
-        $isbn=$row['isbn'];
-        $titolo=$row['titolo'];
-        $anno=$row['anno'];
-        $lingua=$row['lingua'];
 
-        echo"
-             <tr>
+if($libroCercato) {
 
-                <td>$isbn</td>
-                <td>$titolo</td>";
+    $ricerca = filtra_libro($vT, $vI);
 
 
-        $autoriQ="select nome, cognome from libri_autori where isbn='$isbn'";
+    foreach ($ricerca as $row) {
+
+        $isbn = $row['isbn'];
+        $titolo = $row['titolo'];
+        $anno = $row['anno'];
+        $lingua = $row['lingua'];
+
+
+        $autoriQ = "select nome, cognome from libri_autori where isbn='$isbn'";
         $risultato = $GLOBALS['connessione']->query($autoriQ);
-        $numRighe=mysqli_num_rows($risultato);
+        $numRighe = mysqli_num_rows($risultato);
 
-        while ($risultato = $risultato->fetch_assoc())
-        {
-            $nome=$risultato['nome'];
-            $cognome=$risultato['cognome'];
+        $autori = "";
+        while ($risult = $risultato->fetch_assoc()) {
+            $nome = $risult['nome'];
+            $cognome = $risult['cognome'];
 
-            if($numRighe!=1)
-            {
-                echo"
-                <td>$nome.' '.$cognome, </td>";
 
-            }
-            else
-            {
-                echo"
-                <td>$nome.' '.$cognome</td>";
+            if ($numRighe != 1) {
+                $autori = $autori . '' . $nome . " " . $cognome . ', ';
+
+            } else {
+                $autori = $autori . '' . $nome . " " . $cognome;
             }
             $numRighe--;
 
         }
 
-       $editoreQ="select nome from libri inner join editori e on libri.editore = e.codice
+
+        $editoreQ = "select nome from libri inner join editori e on libri.editore = e.codice
                  where isbn='$isbn'";
         $risultato = $GLOBALS['connessione']->query($editoreQ);
         $row = $risultato->fetch_assoc();
-        $editore=$row['nome'];
+        $editore = $row['nome'];
 
 
-        echo"   <td>$editore</td>
-                <td>$anno</td>
-                <td>$lingua</td>
-                <td width='80' height='40'><form action=''>
-                    <button type='submit' style='font-size:20px'>aggiungi</button>
-                </form>
-                </td>
-            </tr>";
+        $copieQ = "select * from copie where isbn='$isbn'";
+        $risultat = $GLOBALS['connessione']->query($copieQ);
+
+        while ($ris = $risultat->fetch_assoc()) {
+
+            $succursale = $ris['succursale'];
+            $numCopia = $ris['numero_copia'];
 
 
+            echo "<td>$isbn</td>
+                  <td>$titolo</td>";
+
+            echo "    <td> $autori</td>
+                         <td>$editore</td>
+                         <td>$anno</td>
+                         <td>$lingua</td>";
+
+            echo "       <td>$numCopia</td>
+                         <td>$succursale</td>";
+
+
+            $restituitoQ = "select fine from copie_prestiti 
+                          inner join prestiti p on copie_prestiti.matricola = p.matricola and copie_prestiti.inizio = p.inizio
+                          where copie_prestiti.isbn='$isbn' and numero_copia='$numCopia' and restituito=0";
+            $risul = $GLOBALS['connessione']->query($restituitoQ);
+
+
+            $risultatoCopiaFuori = copia_fuori($isbn, $numCopia);
+
+
+            if ($risultatoCopiaFuori === false) {
+                echo "
+
+                      <td width='80' height='40'>
+                      <form action='' method='get'>
+                          <button type='submit' style='font-size:20px'>aggiungi</button>
+                          <input type='hidden' name='isbn' value='$isbn'>
+                          <input type='hidden' name='titolo' value='$titolo'>
+                          <input type='hidden' name='autori' value='$autori'>
+                          <input type='hidden' name='editore' value='$editore'>
+                          <input type='hidden' name='anno' value='$anno'>
+                          <input type='hidden' name='lingua' value='$lingua'>
+                          <input type='hidden' name='numCopia' value='$numCopia'>
+                          <input type='hidden' name='succursale' value='$succursale'>
+                      </form>
+                      </td>
+                  </tr>";
+
+
+            } else {
+
+                echo " <td width='150'>disponibile entro $risultatoCopiaFuori</td>";
+                echo "  </tr>";
+
+
+            }
+
+
+        }
 
 
     }
 }
 
 
+
 ?>
 
-
-            <tr>
-
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>11</td>
-                <td>12</td>
-                <td width="150">disponibile il 21/08/2020</td>
-
-
-            </tr>
             </table>
              </font><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><hr><br><br><br><br
      </td>//chiusa seconda cell
@@ -275,6 +340,7 @@ tabella3
         </div>
 <?php
 // e stato premuto il bottone seleziona  sulla tabella di utenti
+
 if(isset($_GET['matricola']))
 {
 
@@ -293,7 +359,6 @@ if(isset($_GET['matricola']))
 
 
 
-
  echo"       <font size='5'>
         <table border='1' width='1500' align='left' cellspacing='1'>
             <tr>
@@ -302,7 +367,7 @@ if(isset($_GET['matricola']))
                 <td>$matricola</td>
                 <td width='350'>$indirizzo</td>
                 <td width='250'>$telefono</td>
-                <td width='50'>
+                
                     <form action=''>
                         <button type='submit' style='font-size:20px'>X</button>
                     </form>
@@ -317,50 +382,97 @@ if(isset($_GET['matricola']))
      {
          //se non e stato prenuto il bottone seleziona rimane invariata
 
+
+
      }
 
 ?>
-        <font size='5'>
-        <table border='1'  width='1500' align='left' cellspacing='1'>
+ <?php
+
+
+ if(isset($_GET['isbn']))
+ {
+     $isbn=$_GET['isbn'];
+     $titolo=$_GET['titolo'];
+     $autori=$_GET['autori'];
+     $editore=$_GET['editore'];
+     $anno=$_GET['anno'];
+     $lingua=$_GET['lingua'];
+     $numCopia=$_GET['numCopia'];
+     $succursale=$_GET['succursale'];
+
+     $dataOggi=date('Y-m-d');
+     $dataFine=date('Y-m-d', strtotime('+30 days', strtotime($dataOggi)));
+
+    echo"
+    
+              <font size='5'>
+        <table border='1'  width='1700' align='left' cellspacing='1'>
 
             <tr>
-                <td><strong>ISBN</strong></td>
+                <td width='150'><strong>ISBN</strong></td>
                 <td><strong>Titolo</strong></td>
                 <td><strong>Autore</strong></td>
                 <td><strong>Editore</strong></td>
                 <td><strong>Anno</strong></td>
                 <td><strong>Lingua</strong></td>
+                 <td width='50'><strong>Numero copia</strong></td>
+                <td><strong>Succursale</strong></td>
                 <td width='150' height='50'>da restituire entro</td>
                 <td>bott1</td>
-            </tr>
+            </tr>";
 
 
+
+
+
+            echo "
+                             
             <tr>
 
-                <td height='50'>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
+                
+                <td>$isbn</td>
+                <td>$titolo</td>
+                <td>$autori</td>
+                <td>$editore</td>
+                <td>$anno</td>
+                <td>$lingua</td>
+                <td>$numCopia</td>
+                <td>$succursale</td>
+                <td>$dataFine</td>
                 <td><form action=''>
                     <button type='submit'>X</button>
                 </form></td>
-            </tr>
+            </tr>";
 
-            <tr>
 
-                <td height='50'>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>11</td>
-                <td>12</td>
-                <td>13</td>
-                <td><form action=''>
-                    <button type=”submit”>X</button>
-                </form></td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ }
+
+
+
+
+
+
+
+
+ ?>
+
+
 
 
             </tr>

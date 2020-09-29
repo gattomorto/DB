@@ -479,8 +479,12 @@ function filtra_libri($target)
     return $result;
 }
 
-function filtra_nuovo_prestito($nome, $cognome, $matricola)
+function filtra_utenti_nuovo_prestito($nome, $cognome, $matricola)
 {
+    /*
+     * funzione usata nella pagina nuovo_prestito.php per cercare gli utenti
+     * la ricerca usa un and
+     */
     $qry="select * from utenti 
           where nome REGEXP '[[:<:]]$nome' and cognome REGEXP '[[:<:]]$cognome' and matricola REGEXP '[[:<:]]$matricola'";
     $result= $GLOBALS['connessione']->query($qry);
@@ -497,7 +501,10 @@ function filtra_libro($titolo, $isbn)
     $pieces = explode(" ", $titolo);
     $numPieces = count($pieces);
 
+
     $v=[];
+    $vf=[];
+
 
     for($i=0; $i<$numPieces; $i++)
     {
@@ -510,11 +517,33 @@ function filtra_libro($titolo, $isbn)
     }
 
 
+    /*while($row = $v[0]->fetch_assoc()) {
+        echo $row['titolo']." ".$row['isbn']."\n";
+    }*/
+
+/*    echo "..\n";
+
+    while($row = $v[0]->fetch_assoc()) {
+        echo $row['titolo']." ".$row['isbn']."\n";
+    }
+
+    $v[0]->data_seek(0);
+    //$v[1]->data_seek(0);
+    echo "------------\n";*/
+
+    if($numPieces==1)
+    {
+        return $v[0];
+    }
+
+
     $j=0;
     $trovato=false;
     while($rowPrimo = $v[0]->fetch_assoc())
     {
         $isbnPrimo=$rowPrimo['isbn'];
+        //echo "$isbnPrimo\n";
+
 
         //tabella
         for($k=1; $k<$numPieces; $k++)
@@ -522,11 +551,13 @@ function filtra_libro($titolo, $isbn)
             while($row = $v[$k]->fetch_assoc())
             {
                 $isbn=$row['isbn'];
+                //echo "$isbn\n";
 
                 if($isbnPrimo==$isbn ){
+                    //echo "$isbnPrimo\n";
                     $trovato=true;
                     if($k==$numPieces-1) {
-                        $result[$j] = $row;
+                        $vf[$j] = $row;
                         $j++;
                         break;
 
@@ -551,8 +582,51 @@ function filtra_libro($titolo, $isbn)
     }
 
 
-    return $result;
+    return $vf;
 
 
+
+}
+function copia_fuori($isbn, $numCopia)
+{
+    /*
+     * quando si assegnano le copie a presiti in maniera casuale bisogna essere sicuri che quella copia
+     * non sia già fuori
+     *
+     * false se non è fuori
+     * data rientro prevista se è in casa
+     */
+
+    $restituitoQ="select fine from copie_prestiti 
+                              inner join prestiti p on copie_prestiti.matricola = p.matricola and copie_prestiti.inizio = p.inizio
+                              where copie_prestiti.isbn='$isbn' and numero_copia='$numCopia' and restituito=0";
+    $risul = $GLOBALS['connessione']->query($restituitoQ);
+
+
+    $numRighe=mysqli_num_rows($risul);
+
+
+
+    if($numRighe==0)
+    {
+
+        return false;
+    }
+
+    else
+    {
+        if($numRighe>1)
+        {
+
+            echo "errore in copia_fuori()";
+            exit(-1);
+        }
+
+
+        $riga = $risul->fetch_assoc();
+        $dataFine=$riga['fine'];
+        return $dataFine;
+
+    }
 
 }

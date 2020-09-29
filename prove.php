@@ -2,13 +2,18 @@
 <?php
 include "gestione_biblio.php";
 
-filtra_utenti("vittorio cavour");
 
-//filtra_libri("Gone Fishin");
+/*
+$result=filtra_libro('Boys of St Vincent The','');
 
-filtra_nuovo_prestito('Luca','la','');
+foreach ($result as $libro)
+{
+    echo $libro['titolo']." ".$libro['isbn']."\n";
+}*/
 
-filtra_libro(' Boys of St Vincent The','13');
+$risultatoCopiaFuori=copia_fuori('222223087-X','1');
 
+
+echo $risultatoCopiaFuori;
 ?>
 
