@@ -11,8 +11,31 @@ include "gestione_biblio.php";
     <meta charset="UTF-8">
     <title>nuovo</title>
 </head>
-<body>
+<body bgcolor="#f5f5dc">
+<!--<div align="center">
+    <h1>Nuovo Utente</h1>
+    <div align="left">
+        <a href="index.php"><img  title="Home"  src="immagini/logo.png"></a>
+    </div><br><br><br>
 
+
+</div>-->
+<table border="0" width="1000" align="left" cellspacing="1">
+    <tr>
+        <td class="all"> <div align="left">
+                <a href="index.php"><img  title="Home"  src="immagini/logo.png"></a>
+            </div>
+        </td>
+
+        <td class="all">
+            <div align="center">
+                <h1>Nuovo utente</h1>
+            </div><br><br>
+        </td>
+
+
+    </tr>
+</table><br><br><br><br><br><br><br><br><br><br><br>
 <div style='font-size:30px; line-height: 1.6;'>
     <form action='gestione_utenti.php' method='get'>
         <strong>Matricola</strong>:

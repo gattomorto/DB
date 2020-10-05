@@ -27,6 +27,12 @@ include "gestione_biblio.php";
         border-bottom: 1px solid #FFFFFF;
 
     }
+    .all {
+        border-top: 1px solid #FFFFFF;
+        border-right: 1px solid #FFFFFF;
+        border-bottom: 1px solid #FFFFFF;
+        border-left: 1px solid #FFFFFF;
+    }
 
 
 </style>
@@ -37,9 +43,29 @@ include "gestione_biblio.php";
 </head>
 <body bgcolor="#f5f5dc">
 
-    <div align="center">
+  <!--  <div align="center">
         <h1>Libro</h1>
     </div>
+    <div align="left">
+        <a href="index.php"><img  title="Home"  src="immagini/logo.png"></a>
+    </div><br><br>-->
+
+  <table border="0" width="1000" align="left" cellspacing="1">
+      <tr>
+          <td class="all"> <div align="left">
+                  <a href="index.php"><img  title="Home"  src="immagini/logo.png"></a>
+              </div>
+          </td>
+
+          <td class="all">
+              <div align="center">
+                  <h1>Lista libri</h1>
+              </div><br><br>
+          </td>
+
+
+      </tr>
+  </table><br><br><br><br><br><br><br><br><br><br>
 <?php
 
 
@@ -184,7 +210,7 @@ echo "<br>";
         }
 
   echo"  </table>
-         </font>";
+         </font><br><br><br><br><br><br><br><br><br><br><br>";
 
 
 

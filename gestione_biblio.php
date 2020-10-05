@@ -3,6 +3,27 @@ $con = connetti();
 mysqli_set_charset($con, "utf8");
 $GLOBALS['connessione']=$con;
 
+function test_qry($result,$operazione)
+{
+    /*if ($result === TRUE) {
+        echo "$operazione"." ok\n";
+    } else {
+        //echo "errore in ".$operazione .": ". $GLOBALS['connessione']->error;
+        echo "errore in ".$operazione .": ". mysqli_error($GLOBALS['connessione']);
+        exit();
+    }*/
+
+    if($result != false)
+    {
+        echo "$operazione"." ok\n";
+    }
+    else
+    {
+        echo "errore in ".$operazione .": ". mysqli_error($GLOBALS['connessione']);
+        exit();
+    }
+}
+
 function cinque_lingue()
 {
     /*
@@ -628,5 +649,203 @@ function copia_fuori($isbn, $numCopia)
         return $dataFine;
 
     }
+
+}
+
+function info_complete_copia($isbn, $numCopia)
+{
+    /*
+     * data una copia serve ad estratte tutte le informazioni essa riguardanti: titolo, anno, autori, editore, lingua,
+     * (isbn), (numero copia), succursale
+     *
+     * la funzione serve in nuovo_prestito.php, nella sezione cerca libro e nella sezione riepilogo
+     *
+     * ritorna un array
+     */
+
+
+    $qry = "select * from libri where isbn='$isbn'";
+    $risultato = $GLOBALS['connessione']->query($qry);
+
+    $libro = $risultato->fetch_assoc();
+
+
+    $output["titolo"] = $libro["titolo"];
+    $output["anno"] = $libro["anno"];
+    $output["isbn"] = $libro["isbn"];
+    $output["lingua"] = $libro["lingua"];
+
+    //////////////////////////////////////
+
+    $qry = "select nome, cognome from libri_autori where isbn='$isbn'";
+    $risultato = $GLOBALS['connessione']->query($qry);
+    $numRighe = mysqli_num_rows($risultato);
+
+    $autori = "";
+    while ($risult = $risultato->fetch_assoc()) {
+        $nome = $risult['nome'];
+        $cognome = $risult['cognome'];
+
+
+        if ($numRighe != 1) {
+            $autori = $autori . '' . $nome . " " . $cognome . ', ';
+
+        } else {
+            $autori = $autori . '' . $nome . " " . $cognome;
+        }
+        $numRighe--;
+
+    }
+
+    $output["autori"] = $autori;
+
+    ///////////////////////////////////////////
+
+    $qry = "select nome from libri inner join editori e on libri.editore = e.codice where isbn='$isbn'";
+    $risultato = $GLOBALS['connessione']->query($qry);
+    $row = $risultato->fetch_assoc();
+    $editore = $row['nome'];
+
+    $output["editore"] = $editore;
+
+    ///////////////////////////////////////////
+
+
+    $qry = "select * from copie where isbn='$isbn' and numero_copia = '$numCopia'";
+    $risultato = $GLOBALS['connessione']->query($qry);
+
+    $row = $risultato->fetch_assoc();
+
+    $output["succursale"] = $row['succursale'];
+    $output["numeroCopia"] = $row['numero_copia'];
+
+    ////////////////////////////////////////////////////
+
+    return $output;
+}
+
+function copiaGiaSelezionata($isbn_num_copieSelezionate, $isbn, $numCopia)
+{
+    /*
+     * questa è una funzione di aiuto per nuovo_presito.php
+     * data la stringa che mantiene lo stato delle copie selezionate $isbn_numCopia_selezionate e
+     * una copia ($isbn, $numCopia) dice se l'ultima è contenuta nella prima.
+     * E' usata quando si ricostruisce la tabella delle copie cercate: se una copia è gia stata selezionata
+     * in una sessione precedente questa non può piu essere selezionata...
+     */
+
+
+    $copie = explode("@", $isbn_num_copieSelezionate);
+
+    foreach ($copie as $copia) {
+        $isbn_numCopia = explode("*", $copia);
+
+        $isbn_ = $isbn_numCopia[0];
+        $numCopia_ = $isbn_numCopia[1];
+
+        if ($isbn == $isbn_ and $numCopia == $numCopia_)
+        {
+            return true;
+        }
+    }
+
+    return false;
+
+}
+
+function rimuoviCopiaDaIsbn_num_copieSelezionate($isbn_num_copieSelezionate,$isbn, $numCopia)
+{
+    /*
+     * funzione di aiuto per nuovo_prestito.php
+     * usata quando il bottone rimuovi copia è premuto in riepilogo
+     *
+     * la funzione data la stringa che contiene tutte le copie selezionate $isbn_num_copieSelezionate e una copia,
+     * restituire una nuova stringa senza la copia
+     */
+
+    $copie = explode("@", $isbn_num_copieSelezionate);
+
+    $nuovo_isbn_num_copieSelezionate = "";
+
+    foreach ($copie as $copia) {
+        $isbn_numCopia = explode("*", $copia);
+
+        $isbn_ = $isbn_numCopia[0];
+        $numCopia_ = $isbn_numCopia[1];
+
+        if ($isbn != $isbn_ or $numCopia != $numCopia_)
+        {
+            $nuovo_isbn_num_copieSelezionate = $nuovo_isbn_num_copieSelezionate . "$isbn_*$numCopia_@";
+        }
+
+    }
+
+    return $nuovo_isbn_num_copieSelezionate;
+
+}
+
+function inserisci_prestito($matricola,$isbn_num_copieSelezionate)
+{
+    /*
+     * quando si clicca su conferma in nuovo_prestito.php si rimanda su index.php dove viene l'inserimento vero e proprio
+     *
+     * paramentri
+     *      $matricola: matricola dell'utente del prestito
+     *      $isbn_num_copieSelezionate: stringa che contiene tutte le copie del prestito separati da @ e *
+     */
+
+    $dataOggi=date('Y-m-d');
+    $dataFine=date('Y-m-d', strtotime('+30 days', strtotime($dataOggi)));
+
+    $qry = "insert into prestiti values ('$matricola','$dataOggi','$dataFine',0)";
+    $risultato = $GLOBALS['connessione']->query($qry);
+
+    test_qry($risultato,"inserimento in presiti");
+
+    ///////////////////////////////
+
+
+    $copie = explode("@", $isbn_num_copieSelezionate);
+
+    foreach ($copie as $copia) {
+        $isbn_numCopia = explode("*", $copia);
+
+        $isbn_ = $isbn_numCopia[0];
+        $numCopia_ = $isbn_numCopia[1];
+
+        $qry = "insert into copie_prestiti values ('$isbn_','$numCopia_','$matricola','$dataOggi')";
+        $risultato = $GLOBALS['connessione']->query($qry);
+
+        test_qry($risultato,"inserimento in copie_prestiti");
+
+
+    }
+
+
+
+
+}
+
+function prestito_esiste($matricola, $dataInizio)
+{
+    /* questa funzione mi serve ad evitare di avere doppioni su popola_prestito() in quanto maricola e dataInizio sono
+    chiavi primarie*/
+
+    $qry="select matricola, inizio from prestiti where matricola='$matricola' and inizio='$dataInizio'";
+    $result = $GLOBALS['connessione']->query($qry);
+    //test_qry($result, "SELECT in prestito_esiste()");
+    $numRighe=mysqli_num_rows($result);
+
+
+    if($numRighe==1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+
 
 }

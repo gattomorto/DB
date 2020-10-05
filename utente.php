@@ -21,10 +21,22 @@ if(isset($_GET['matricola']) and isset($_GET['inizio'])) {
 </head>
 <body bgcolor="#f5f5dc">
 
-<div align="center">
-    <h1>Utente</h1>
-</div><br>
+<table border="0" width="1000" align="left" cellspacing="1">
+    <tr>
+        <td class="all"> <div align="left">
+                <a href="index.php"><img  title="Home"  src="immagini/logo.png"></a>
+            </div>
+        </td>
 
+        <td class="corner_left">
+            <div align="center">
+                <h1>Utente</h1>
+            </div><br><br>
+        </td>
+
+
+    </tr>
+</table><br><br><br><br><br><br><br><br><br><br><br>
 
 <?php
 

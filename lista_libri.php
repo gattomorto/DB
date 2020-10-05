@@ -25,14 +25,26 @@ else
         border: 1px solid #090404;
         border-collapse: collapse;
     }
-    .corner_left {
-        border-top: 1px solid #ffffff;
+    .corner {
+        border-top: 1px solid #f9efef;
         border-left: 1px solid #FFFFFF;
         border-bottom: 1px solid #FFFFFF;
     }
 
     .left_bottom {
         border-left: 1px solid #FFFFFF;
+        border-bottom: 1px solid #FFFFFF;
+
+    }
+    .all {
+        border-top: 1px solid #FFFFFF;
+        border-right: 1px solid #FFFFFF;
+        border-bottom: 1px solid #FFFFFF;
+        border-left: 1px solid #FFFFFF;
+    }
+    .corner_left{
+        border-top: 1px solid #FFFFFF;
+        border-right: 1px solid #FFFFFF;
         border-bottom: 1px solid #FFFFFF;
 
     }
@@ -44,11 +56,29 @@ else
     <meta charset="UTF-8">
     <title>Lista libri</title>
 </head>
-<body>
-
+<body bgcolor="#f5f5dc">
+<!--
     <div align="center">
         <h1>Lista libri</h1>
-    </div>
+    </div>-->
+    <table border="0" width="1000" align="left" cellspacing="1">
+        <tr>
+            <td class="all"> <div align="left">
+                    <a href="index.php"><img  title="Home"  src="immagini/logo.png"></a>
+                </div>
+            </td>
+
+            <td class="corner_left">
+                <div align="center">
+                    <h1>Lista libri</h1>
+                </div><br><br>
+            </td>
+
+
+        </tr>
+    </table><br><br><br><br><br><br><br><br><br><br>
+
+
 
     <form action="">
         <input  size="25" style="font-size:larger" type=”text” name="cercaLibro">
@@ -60,7 +90,7 @@ else
         <table border="1" width="1300" align="left" cellspacing="1">
 
             <tr>
-                <td class="corner_left" width="80" height="50"></td>
+                <td  width="80" class="corner" height="50"></td>
                 <td width="150"><strong>ISBN</strong></td>
                 <td><strong>Titolo</strong></td>
                 <td><strong>Anno</strong></td>

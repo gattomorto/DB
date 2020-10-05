@@ -7,17 +7,40 @@ if(isset($_GET['utenteCercato']))
 {
     $utenteCercato=$_GET['utenteCercato'];
     $libroCercato = $_GET['libroCercato'];
+    $utenteSelezionato = $_GET["utenteSelezionato"];
+    $copieSelezionate = $_GET["copieSelezionate"];
+
     $vN= $_GET['testoNome'];
     $vC= $_GET['testoCognome'];
     $vM = $_GET['testoMatricola'];
 
     $vT = $_GET['testoTitolo'];
     $vI = $_GET['testoIsbn'];
+
+    $matricolaSelezionato = $_GET['matricolaSelezionato'];
+
+
+    $isbn_num_copieSelezionate = $_GET['isbn_num_copieSelezionate'];
+    $ultimo = substr($isbn_num_copieSelezionate, -1);
+    if($ultimo == '@')
+    {
+        // rimuove l'ultimo delimitatore @
+        $isbn_num_copieSelezionate =  substr($isbn_num_copieSelezionate, 0, -1);
+    }
+    if ($isbn_num_copieSelezionate=="")
+    {
+        $copieSelezionate = 0;
+    }
+
+
+
+
 }
 else
 {
     $utenteCercato=0;
     $libroCercato = 0;
+    $utenteSelezionato = 0;
     $vN= "";
     $vC= "";
     $vM = "";
@@ -25,59 +48,114 @@ else
     $vT = "";
     $vI = "";
 
+    $matricolaSelezionato = -1;
+
+    $isbn_num_copieSelezionate = "";
+    $copieSelezionate = 0;
+
 
 }
 
 
 ?>
-<?php
 
-
-?>
 
 <html lang="en">
 <head>
+    <style>
+
+        table, th, td {
+            border: 1px solid #090404;
+            border-collapse: collapse;
+        }
+
+        .all {
+            border-top: 1px solid #FFFFFF;
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+        }
+        .corner_left{
+            border-top: 1px solid #FFFFFF;
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+
+        }
+        .right_bottom {
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+
+        }
+
+        .top {
+            border-top: 1px solid #FFFFFF;
+
+        }
+
+
+    </style>
     <meta charset="UTF-8">
     <title>nuovo prestito</title>
 </head>
 <body bgcolor="#f5f5dc">
 
-    <div align="center">
-        <h1>Nuovo prestito</h1>
-    </div><br><br>
+    <table border="0" width="1000" align="left" cellspacing="1">
+        <tr>
+                <td class="all"> <div align="left">
+                        <a href="index.php"><img  title="Home"  src="immagini/logo.png"></a>
+                    </div>
+                </td>
 
-<!--tabella esterna    -->
-    <table border="1" width="1700" align="center" cellspacing="1">
+                <td class="corner_left">
+                    <div align="center">
+                        <h1>Nuovo prestito</h1>
+                    </div><br><br>
+                </td>
+
+
+        </tr>
+    </table><br><br><br><br><br><br>
+<!--tabella esterna   1 -->
+    <table border="0" width="1700" align="center" cellspacing="1">
 
  <?php
- //se seleziona e stato premuto il primo blocco sparisce
+
+if($utenteSelezionato == 0) {
 
 
-
-     echo "  <tr> //prima riga esterna
-        <td>//tabella esterna 1 cella
+    echo "  <tr> 
+        <td>
             <font size='5'>
             <table border='0' width='1500' align='left' cellspacing='1'>
 
                  <tr>
                     <form action='' method='get'>
-                    <td width='350'>Nome<br>
-                        <input  size='15' style='font-size:larger' type='text' name='testoNome' value=$vN>
+                    <td width='350' class='all'>Nome<br>
+                        <input  size='15' style='font-size:larger' type='text' name='testoNome' value='$vN'>
                     </td>
-                    <td width='350'>Cognome
+                    <td width='350' class='all'>Cognome
                         <input  size='15' style='font-size:larger' type='text' name='testoCognome' value='$vC'>
                     </td>
-                    <td width='350'>Matricola
+                    <td width='350' class='all'>Matricola
                         <input  size='15' style='font-size:larger' type='text' name='testoMatricola' value='$vM'>
                     </td>
-                    <td valign='bottom'>
+                    <td valign='bottom' class='all'>
 
-
+                    <!--form cerca utente-->
                     <button type='submit' style='font-size: 29.5px'>cerca</button>
                     <input type='hidden' name='utenteCercato' value='1'>
-                    <input type='hidden' name='libroCercato' value=$libroCercato>
-                    <input type='hidden' name='testoTitolo' value=$vT>
-                    <input type='hidden' name='testoIsbn' value=$vI>
+                    
+                    <input type='hidden' name='libroCercato' value='$libroCercato'>
+                    <input type='hidden' name='testoTitolo' value='$vT'>
+                    <input type='hidden' name='testoIsbn' value='$vI'>
+                    
+                    <input type='hidden' name='utenteSelezionato' value=$utenteSelezionato>
+                    <input type='hidden' name='matricolaSelezionato' value='$matricolaSelezionato'>
+                    
+                    <input type='hidden' name='copieSelezionate' value=$copieSelezionate>
+                    <input type='hidden' name='isbn_num_copieSelezionate' value='$isbn_num_copieSelezionate'>
+                    
+                    
                     
                     
                     
@@ -91,42 +169,41 @@ else
     <br><br><br><br><br><br> ";
 
 
-     echo "   <font size='5'>
+    echo "   <font size='5'>
         <table border='1' width='1200' align='left' cellspacing='1'>
         
                <tr>
 
-                <td><strong>Nome</strong></td>
-                <td><strong>Cognome</strong></td>
-                <td><strong>Matricola</strong></td>
-                <td><strong>Indirizzo</strong></td>
-                <td><strong>Telefono</strong></td>
-                <td width='100' height='40'>bot1</td>
+                <td align='center'><strong>Nome</strong></td>
+                <td align='center'><strong>Cognome</strong></td>
+                <td align='center'><strong>Matricola</strong></td>
+                <td align='center'><strong>Indirizzo</strong></td>
+                <td align='center'><strong>Telefono</strong></td>
+                <td width='100' height='40' class='corner_left'></td>
 
             </tr>";
 
 
-
-     if($utenteCercato==1) {
-
-
-         $tNome=$_GET['testoNome'];
-         $tCognome=$_GET['testoCognome'];
-         $tMatricola=$_GET['testoMatricola'];
+    if ($utenteCercato == 1) {
 
 
-         //la unzione filtra i dati
-         $utenti=filtra_utenti_nuovo_prestito($tNome, $tCognome,$tMatricola);
-
-         while ($row = $utenti->fetch_assoc()) {
-             $nome = $row['nome'];
-             $cognome = $row['cognome'];
-             $matricola = $row['matricola'];
-             $indirizzo = $row['indirizzo'];
-             $telefono = $row['telefono'];
+        $tNome = $_GET['testoNome'];
+        $tCognome = $_GET['testoCognome'];
+        $tMatricola = $_GET['testoMatricola'];
 
 
-             echo "
+        //la unzione filtra i dati
+        $utenti = filtra_utenti_nuovo_prestito($tNome, $tCognome, $tMatricola);
+
+        while ($row = $utenti->fetch_assoc()) {
+            $nome = $row['nome'];
+            $cognome = $row['cognome'];
+            $matricola = $row['matricola'];
+            $indirizzo = $row['indirizzo'];
+            $telefono = $row['telefono'];
+
+
+            echo "
                   <tr>
 
                         <td>$nome</td>
@@ -134,51 +211,87 @@ else
                         <td>$matricola</td>
                         <td>$indirizzo</td>
                         <td>$telefono</td>
-                        <td width='80' height='40'>
-                        <form action=''>
-                             <button type='submit' style='font-size:20px'>seleziona</button>
-                             <input type='hidden' name='matricola' value='$matricola'>
+                        <td width='80' height='40' class='right_bottom'>
+                        
+                        <form action=''>";
+                            $dataOggi = date('Y-m-d');
+
+                            if(prestito_esiste($matricola,$dataOggi))
+                            {
+                                echo "prestito di oggi già effettuato";
+                            }
+                            else {
+                                echo "<button type='submit' style='font-size:20px'>seleziona</button>";
+                            }
+                             
+                           echo  "<input type='hidden' name='matricolaSelezionato' value='$matricola'>
+                             <input type='hidden' name='utenteSelezionato' value='1'>
+                             
+                             <input type='hidden' name='libroCercato' value=$libroCercato>
+                             <input type='hidden' name='testoTitolo' value='$vT'>
+                             <input type='hidden' name='testoIsbn' value='$vI'>
+                             
+                             <input type='hidden' name='utenteCercato' value=$utenteCercato>
+                             <input type='hidden' name='testoNome' value='$vN'>
+                             <input type='hidden' name='testoCognome' value='$vC'>
+                             <input type='hidden' name='testoMatricola' value='$vM'>
+                             
+                            <input type='hidden' name='copieSelezionate' value=$copieSelezionate>
+                            <input type='hidden' name='isbn_num_copieSelezionate' value='$isbn_num_copieSelezionate'>
+                            
+                          
                          </form>
                          </td>
 
                   </tr>";
 
-         }
-     }
 
 
-     echo "  </table>
-          </font><br><br><br><br><br><br><br><br><br><br><br><br><br><hr><br><br>";
-     echo "</td>";//chiusa prima cella
-     echo "</tr>"; //  chiusa prima riga
+        }
+    }
 
+
+    echo "  </table>
+          </font><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+    echo "</td>";
+    echo "</tr>";
+}
 ?>
-        //tabella1
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
-//tabella 2
-?>
-<tr>//seconda riga
-     <td>//seconda cella
+
+<!-- tabella 2 -->
+
+
+<tr>
+     <td>
                 <font size="5">
                 <table border="0" width="1500" align="left" cellspacing="1">
 
                 <tr>
                     <form action="" method="get">
-                    <td width="350">Titolo<br>
-                        <input  size="15" style="font-size:larger" type=”text” name="testoTitolo" value=<?php echo "$vT";?>>
+                    <td width="350" class="all">Titolo<br>
+
+                        <input  size="15" style="font-size:larger" type=”text” name="testoTitolo" value='<?php echo $vT;?>'>
                     </td>
 
-                     <td width="350"> Isbn<br>
-                        <input  size="15" style="font-size:larger" type=”text” name="testoIsbn" value=<?php echo "$vI";?>>
+                     <td width="350" class="all"> Isbn<br>
+                        <input  size="15" style="font-size:larger" type=”text” name="testoIsbn" value='<?php echo $vI;?>'>
                      </td>
 
-                    <td valign="bottom">
+                    <td valign="bottom" class="all">
 
+                    <!-- form cerca libro -->
                     <input type="hidden" name="utenteCercato" value= <?php echo $utenteCercato; ?>>
-                    <input type="hidden" name="testoNome" value=<?php echo $vN;?>>
-                    <input type="hidden" name="testoCognome" value=<?php echo $vC;?>>
-                    <input type="hidden" name="testoMatricola" value=<?php echo $vM;?>>
+
+                    <input type="hidden" name="testoNome" value='<?php echo $vN;?>'>
+                    <input type="hidden" name="testoCognome" value='<?php echo $vC;?>'>
+                    <input type="hidden" name="testoMatricola" value='<?php echo $vM;?>'>
                     <input type="hidden" name="libroCercato" value="1">
+
+                    <input type="hidden" name="utenteSelezionato" value=<?php echo $utenteSelezionato;?>>
+                    <input type="hidden" name="matricolaSelezionato" value='<?php echo $matricolaSelezionato;?>'>
+
+                    <input type='hidden' name='copieSelezionate' value= <?php echo $copieSelezionate; ?>>
+                    <input type='hidden' name='isbn_num_copieSelezionate' value= '<?php echo $isbn_num_copieSelezionate; ?>'>
 
                     <button type=”submit” style="font-size: 29.5px">cerca</button>
 
@@ -187,7 +300,7 @@ else
             </tr>
 
         </table>
-        </font><br><br><br><br><br><br><br><br>
+        </font><br><br><br><br><br><br>
 
 
 
@@ -195,15 +308,15 @@ else
         <table border="1" width="1700" align="left" cellspacing="1">
 
             <tr>
-                <td width="150"><strong>ISBN</strong></td>
-                <td><strong>Titolo</strong></td>
-                <td><strong>Autore</strong></td>
-                <td><strong>Editore</strong></td>
-                <td><strong>Anno</strong></td>
-                <td><strong>Lingua</strong></td>
-                <td><strong>Numero copia</strong></td>
-                <td><strong>Succursale</strong></td>
-                <td width="80" height="50">bot1</td>
+                <td width="150" align="center"><strong>ISBN</strong></td>
+                <td align="center"><strong>Titolo</strong></td>
+                <td align="center"><strong>Autore</strong></td>
+                <td align="center"><strong>Editore</strong></td>
+                <td align="center"><strong>Anno</strong></td>
+                <td align="center"><strong>Lingua</strong></td>
+                <td width="50" align="center"><strong>Numero copia</strong></td>
+                <td align="center"><strong>Succursale</strong></td>
+                <td width="80" height="50" class="corner_left"></td>
             </tr>
 
 
@@ -221,47 +334,25 @@ if($libroCercato) {
 
     foreach ($ricerca as $row) {
 
+
         $isbn = $row['isbn'];
-        $titolo = $row['titolo'];
-        $anno = $row['anno'];
-        $lingua = $row['lingua'];
-
-
-        $autoriQ = "select nome, cognome from libri_autori where isbn='$isbn'";
-        $risultato = $GLOBALS['connessione']->query($autoriQ);
-        $numRighe = mysqli_num_rows($risultato);
-
-        $autori = "";
-        while ($risult = $risultato->fetch_assoc()) {
-            $nome = $risult['nome'];
-            $cognome = $risult['cognome'];
-
-
-            if ($numRighe != 1) {
-                $autori = $autori . '' . $nome . " " . $cognome . ', ';
-
-            } else {
-                $autori = $autori . '' . $nome . " " . $cognome;
-            }
-            $numRighe--;
-
-        }
-
-
-        $editoreQ = "select nome from libri inner join editori e on libri.editore = e.codice
-                 where isbn='$isbn'";
-        $risultato = $GLOBALS['connessione']->query($editoreQ);
-        $row = $risultato->fetch_assoc();
-        $editore = $row['nome'];
-
-
         $copieQ = "select * from copie where isbn='$isbn'";
         $risultat = $GLOBALS['connessione']->query($copieQ);
 
+        $i = 0;
         while ($ris = $risultat->fetch_assoc()) {
 
-            $succursale = $ris['succursale'];
+            /*$succursale = $ris['succursale'];*/
             $numCopia = $ris['numero_copia'];
+
+            $info_copia = info_complete_copia($isbn,$numCopia);
+
+            $titolo = $info_copia["titolo"];
+            $editore= $info_copia["editore"];
+            $anno= $info_copia["anno"];
+            $autori= $info_copia["autori"];
+            $lingua= $info_copia["lingua"];
+            $succursale= $info_copia["succursale"];
 
 
             echo "<td>$isbn</td>
@@ -272,7 +363,7 @@ if($libroCercato) {
                          <td>$anno</td>
                          <td>$lingua</td>";
 
-            echo "       <td>$numCopia</td>
+            echo "       <td align='center'>$numCopia</td>
                          <td>$succursale</td>";
 
 
@@ -284,32 +375,62 @@ if($libroCercato) {
 
             $risultatoCopiaFuori = copia_fuori($isbn, $numCopia);
 
+            if(!copiaGiaSelezionata($isbn_num_copieSelezionate,$isbn,$numCopia))
+            {
 
-            if ($risultatoCopiaFuori === false) {
-                echo "
 
-                      <td width='80' height='40'>
+                if ($risultatoCopiaFuori === false) {
+
+                    if($copieSelezionate == 0)
+                    {
+                        $x = "$isbn*$numCopia";
+                    }
+                    else
+                    {
+                        $x = $isbn_num_copieSelezionate . "@$isbn*$numCopia";
+                    }
+
+
+
+                    //form aggiungi copia
+                    echo "
+                      <td width='80' height='40' class='right_bottom'>
                       <form action='' method='get'>
                           <button type='submit' style='font-size:20px'>aggiungi</button>
-                          <input type='hidden' name='isbn' value='$isbn'>
-                          <input type='hidden' name='titolo' value='$titolo'>
-                          <input type='hidden' name='autori' value='$autori'>
-                          <input type='hidden' name='editore' value='$editore'>
-                          <input type='hidden' name='anno' value='$anno'>
-                          <input type='hidden' name='lingua' value='$lingua'>
-                          <input type='hidden' name='numCopia' value='$numCopia'>
-                          <input type='hidden' name='succursale' value='$succursale'>
+                          
+                          <input type='hidden' name='copieSelezionate' value='1'>
+                          <input type='hidden' name='isbn_num_copieSelezionate' value='$x'>
+                          
+                          <input type='hidden' name='matricolaSelezionato' value='$matricolaSelezionato'>
+                          <input type='hidden' name='utenteSelezionato' value=$utenteSelezionato>
+                         
+                          <input type='hidden' name='libroCercato' value='$libroCercato'>
+                          <input type='hidden' name='testoTitolo' value='$vT'>
+                          <input type='hidden' name='testoIsbn' value='$vI'>
+                         
+                          <input type='hidden' name='utenteCercato' value=$utenteCercato>
+                          <input type='hidden' name='testoNome' value='$vN'>
+                          <input type='hidden' name='testoCognome' value='$vC'>
+                          <input type='hidden' name='testoMatricola' value='$vM'>
+                        
                       </form>
                       </td>
                   </tr>";
 
 
-            } else {
+                } else {
 
-                echo " <td width='150'>disponibile entro $risultatoCopiaFuori</td>";
+                    echo " <td width='150' class='right_bottom'>disponibile entro<br>$risultatoCopiaFuori</td>";
+                    echo "  </tr>";
+
+
+                }
+            }
+            else
+            {
+                //echo "<< $isbn_num_copieSelezionate >> << $isbn >> << $numCopia >> <br>";
+                echo " <td width='150' class='right_bottom'>selezionata</td>";
                 echo "  </tr>";
-
-
             }
 
 
@@ -324,32 +445,32 @@ if($libroCercato) {
 ?>
 
             </table>
-             </font><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><hr><br><br><br><br
-     </td>//chiusa seconda cell
-</tr>//chiusa seconda riga
+             </font><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+     </td>
+</tr><br><br><br><br>
 
-tabella2
- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-tabella3
-<tr>//aperta terza riga
-    <td>//aperta terza cella
 
-        <div align="center">
+<!-- tabella 3-->
+
+<?php
+
+if($utenteSelezionato== 1 or $copieSelezionate==1)
+{
+echo "<tr>
+    <td>
+
+        <div align='center'>
 
             <strong><h2>Riepilogo</h2></strong>
-        </div>
-<?php
-// e stato premuto il bottone seleziona  sulla tabella di utenti
+        </div><br><br>";
 
-if(isset($_GET['matricola']))
+}
+
+if($utenteSelezionato==1)
 {
-
-    $matricola=$_GET['matricola'];
-
-    $qry="select * from utenti where matricola='$matricola'";
+    $qry="select * from utenti where matricola='$matricolaSelezionato'";
     $result= $GLOBALS['connessione']->query($qry);
     $row = $result->fetch_assoc();
-
 
 
     $nome=$row['nome'];
@@ -360,15 +481,32 @@ if(isset($_GET['matricola']))
 
 
  echo"       <font size='5'>
-        <table border='1' width='1500' align='left' cellspacing='1'>
+        <table border='1' width='1200' align='left' cellspacing='0'>
             <tr>
                 <td height='50'>$nome</td>
                 <td>$cognome</td>
-                <td>$matricola</td>
-                <td width='350'>$indirizzo</td>
-                <td width='250'>$telefono</td>
+                <td>$matricolaSelezionato</td>
+                <td>$indirizzo</td>
+                <td>$telefono</td>
                 
                     <form action=''>
+                         
+               <td class='all'>    <!-- form elimina utente -->
+                        <input type='hidden' name='matricolaSelezionato' value='-1'>
+                        <input type='hidden' name='utenteSelezionato' value='0'>
+                                      
+                         <input type='hidden' name='libroCercato' value='$libroCercato'>
+                         <input type='hidden' name='testoTitolo' value='$vT'>
+                         <input type='hidden' name='testoIsbn' value='$vI'>
+                         
+                         <input type='hidden' name='utenteCercato' value=$utenteCercato>
+                         <input type='hidden' name='testoNome' value='$vN'>
+                         <input type='hidden' name='testoCognome' value='$vC'>
+                         <input type='hidden' name='testoMatricola' value='$vM'>
+                         
+                         <input type='hidden' name='copieSelezionate' value=$copieSelezionate>
+                         <input type='hidden' name='isbn_num_copieSelezionate' value='$isbn_num_copieSelezionate'>
+                        
                         <button type='submit' style='font-size:20px'>X</button>
                     </form>
                 </td>
@@ -378,114 +516,116 @@ if(isset($_GET['matricola']))
         </table><br><br><br><br>
         </font>";
 }
- else
-     {
-         //se non e stato prenuto il bottone seleziona rimane invariata
-
-
-
-     }
 
 ?>
  <?php
 
-
- if(isset($_GET['isbn']))
+ //"isbn*numero@"
+ if($copieSelezionate==1)
  {
-     $isbn=$_GET['isbn'];
-     $titolo=$_GET['titolo'];
-     $autori=$_GET['autori'];
-     $editore=$_GET['editore'];
-     $anno=$_GET['anno'];
-     $lingua=$_GET['lingua'];
-     $numCopia=$_GET['numCopia'];
-     $succursale=$_GET['succursale'];
 
-     $dataOggi=date('Y-m-d');
-     $dataFine=date('Y-m-d', strtotime('+30 days', strtotime($dataOggi)));
 
-    echo"
-    
-              <font size='5'>
+    echo
+        "
+        <font size='5'>
         <table border='1'  width='1700' align='left' cellspacing='1'>
-
             <tr>
                 <td width='150'><strong>ISBN</strong></td>
-                <td><strong>Titolo</strong></td>
-                <td><strong>Autore</strong></td>
-                <td><strong>Editore</strong></td>
-                <td><strong>Anno</strong></td>
-                <td><strong>Lingua</strong></td>
-                 <td width='50'><strong>Numero copia</strong></td>
-                <td><strong>Succursale</strong></td>
-                <td width='150' height='50'>da restituire entro</td>
-                <td>bott1</td>
-            </tr>";
+                <td align='center'><strong>Titolo</strong></td>
+                <td align='center'><strong>Autore</strong></td>
+                <td align='center'><strong>Editore</strong></td>
+                <td align='center'><strong>Anno</strong></td>
+                <td align='center'><strong>Lingua</strong></td>
+                 <td width='50'align='center'><strong>Numero copia</strong></td>
+                <td align='center'><strong>Succursale</strong></td>
+                <td width='150' height='50' align='center'>da restituire entro</td>
+                <td class='all'></td>
+            </tr>
+        ";
+
+     $copie = explode("@", $isbn_num_copieSelezionate);
+
+     foreach ($copie as $copia)
+     {
+
+         $isbn_numCopia = explode("*",$copia);
+
+         $isbn = $isbn_numCopia[0];
+         $numCopia = $isbn_numCopia[1];
 
 
 
+         $info_copia = info_complete_copia($isbn,$numCopia);
+
+         $titolo = $info_copia["titolo"];
+         $editore= $info_copia["editore"];
+         $anno= $info_copia["anno"];
+         $autori= $info_copia["autori"];
+         $lingua= $info_copia["lingua"];
+         $succursale= $info_copia["succursale"];
 
 
-            echo "
-                             
-            <tr>
+         $dataOggi=date('Y-m-d');
+         $dataFine=date('Y-m-d', strtotime('+30 days', strtotime($dataOggi)));
 
-                
+         $x = rimuoviCopiaDaIsbn_num_copieSelezionate($isbn_num_copieSelezionate,$isbn,$numCopia);
+
+         //form rimuovi copia
+         echo
+         "             
+            <tr>   
                 <td>$isbn</td>
                 <td>$titolo</td>
                 <td>$autori</td>
                 <td>$editore</td>
                 <td>$anno</td>
                 <td>$lingua</td>
-                <td>$numCopia</td>
+                <td align='center'>$numCopia</td>
                 <td>$succursale</td>
                 <td>$dataFine</td>
-                <td><form action=''>
+                <td class='right_bottom'><form action=''>
                     <button type='submit'>X</button>
+                    
+                    <input type='hidden' name='matricolaSelezionato' value='$matricolaSelezionato'>
+                    <input type='hidden' name='utenteSelezionato' value='$utenteSelezionato'>
+                                  
+                     <input type='hidden' name='libroCercato' value='$libroCercato'>
+                     <input type='hidden' name='testoTitolo' value='$vT'>
+                     <input type='hidden' name='testoIsbn' value='$vI'>
+                     
+                     <input type='hidden' name='utenteCercato' value=$utenteCercato>
+                     <input type='hidden' name='testoNome' value='$vN'>
+                     <input type='hidden' name='testoCognome' value='$vC'>
+                     <input type='hidden' name='testoMatricola' value='$vM'>
+                     
+                     <input type='hidden' name='copieSelezionate' value=$copieSelezionate>
+                     <input type='hidden' name='isbn_num_copieSelezionate' value='$x'>
                 </form></td>
-            </tr>";
+            </tr>            
+            ";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+     }
  }
-
-
-
-
-
-
-
-
  ?>
-
-
-
-
-            </tr>
+       </tr>
         </table>
-    </font><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </font><br><br><br><br><br><br><br><br><br><br><br>
 
+<?php
+//echo  $utenteSelezionato . " ". $copieSelezionate;
+if($utenteSelezionato ==1 and $copieSelezionate==1) {
+    echo "<form action='index.php'>
+        <button type='submit' style='font-size: x-large'>conferma</button>
+        <input type='hidden' name='nuovoPrestito' value='1'>
+        <input type='hidden' name='matricolaSelezionato' value='$matricolaSelezionato'>               
+         <input type='hidden' name='isbn_num_copieSelezionate' value='$isbn_num_copieSelezionate'>
+    </form><br>";
+}
+?>
 
-    <form action=''>
-        <button type='submit' style='font-size:20px'>conferma</button>
-    </form><br>
-     </td>//terza cella chiudo
-</tr>//terza riga chiudo
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     </td>
+</tr>
+
 
 
     </table>
