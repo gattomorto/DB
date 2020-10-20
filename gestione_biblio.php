@@ -35,7 +35,13 @@ function cinque_lingue()
      *      nella posizione 0 la più pololare, nella 1 la seconda più popolare, e coxì via...
      */
 
-    $qry="select lingua ,count(*) from libri  group by lingua order by count(*) DESC ";
+    $qry="select t1.lingua, t1.count 
+          from(
+                select lingua, count(*) as 'count'
+                from libri
+                group by lingua) as t1
+          order by t1.count desc
+          limit 5";
     $result = $GLOBALS['connessione']->query($qry);
     //test_qry($result,"Select lingue su libri in cinque lingue()");
 
