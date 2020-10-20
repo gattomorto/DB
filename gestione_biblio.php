@@ -65,7 +65,7 @@ function autore_piu_libri()
      *
      * restituisce: una stringa con l autore */
 
-    $qry="select nome,cognome ,count(*)from libri_autori group by nome, cognome order by count(*) DESC";
+    $qry="select nome,cognome  as 'cnt' from libri_autori group by nome, cognome order by count(*) DESC LIMIT 1";
     $result = $GLOBALS['connessione']->query($qry);
     //test_qry($result,"Select nome cognome su tabella libri_autori in autore_piu_libri()");
     $row = $result->fetch_assoc();
@@ -85,8 +85,8 @@ function editore_piu_libri()
      *
      * */
 
-    $qry="select nome ,count(*) from libri inner join editori on libri.editore = editori.codice group by nome
-          order by count(*) DESC ";
+    $qry="select nome from libri inner join editori on libri.editore = editori.codice group by nome
+          order by count(*) DESC LIMIT 1";
     $result = $GLOBALS['connessione']->query($qry);
     //test_qry($result,"Select su libro e editore in funzione editore_piu_libri");
     $row = $result->fetch_assoc();
